@@ -13,7 +13,7 @@ class Controllers:
 
     def __init__(self, rounds: Rounds, view):
         self.players: List[Players] = []
-        self.number_turns = 4
+        self.number_rounds = 4
         self.tournament_details = []
         self.rounds = rounds
         # self.tournaments = tournaments
