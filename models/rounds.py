@@ -2,11 +2,14 @@ from models.players import Players
 
 
 class Rounds:
-    def __init__(self, list_players=[]):
-        self.players_round = list_players
+    def __init__(self):
+        pass
 
-    def sort_by_rating(self):
-        self.players_round=sorted(self.players_round, key=self.players_round.player_ranking)
+    def sort_by_rating(self,list_players=[]):
+        for i in range(len(list_players)):
+            j=i
+            while j>0 in range(len(list_players)):
+                list_players[i].player_ranking
 
     def first_rounds(self):
         pass
