@@ -6,9 +6,6 @@ class Match:
         self.player1 = player1
         self.player2 = player2
 
-    def ranking(self):
-        pass
-
     def set_results(self):
         pass
 
