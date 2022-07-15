@@ -11,12 +11,10 @@ NUMBER_OF_ROUND = 4
 class Controllers:
     player_counter = 1
 
-    def __init__(self, rounds: Rounds, view):
-        self.players: List[Players] = []
-        self.number_rounds = 4
+    def __init__(self, tournaments, view):
+        self.players = []
         self.tournament_details = []
-        self.rounds = rounds
-        # self.tournaments = tournaments
+        self.tournaments = tournaments
         self.view = view
 
     def get_tournaments(self):
@@ -51,8 +49,6 @@ class Controllers:
 
     def run(self):
         self.get_tournaments()
-        self.rounds = self.get_players()
+        self.get_players()
         print()
-        self.view.show_players(self.rounds)
-
-
+        self.view.show_players(self.get_players())
