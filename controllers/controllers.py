@@ -4,7 +4,7 @@ from models.rounds import Rounds
 from typing import List
 
 
-NUMBER_OF_PLAYERS = 8
+NUMBER_OF_PLAYERS = 2
 NUMBER_OF_ROUND = 4
 
 
@@ -51,3 +51,6 @@ class Controllers:
     def run(self):
         self.get_tournaments()
         self.rounds = self.get_players()
+        self.view.show_players(self.rounds.__str__())
+
+

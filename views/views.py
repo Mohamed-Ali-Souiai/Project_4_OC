@@ -2,6 +2,9 @@ class Views:
     def __init__(self):
         pass
 
+    def show_players(self, players):
+        print(players)
+
     def enter_tournaments_name(self):
         name = input("veuillez entrer le nom du tournois")
         if not name:
