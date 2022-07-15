@@ -1,7 +1,7 @@
 from views.views import Views
 from controllers.controllers import Controllers
 from models.rounds import Rounds
-from models.tournaments import Tournaments
+# from models.tournaments import Tournaments
 
 
 def main():
