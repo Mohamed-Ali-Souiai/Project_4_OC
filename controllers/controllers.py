@@ -5,7 +5,6 @@ from typing import List
 
 
 NUMBER_OF_PLAYERS = 2
-NUMBER_OF_ROUND = 4
 
 
 class Controllers:
