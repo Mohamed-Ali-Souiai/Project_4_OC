@@ -41,7 +41,7 @@ class Controllers:
             self.players.append(player)
         return self.players
 
-    def evaluate_chess(self):
+    def results_chess(self):
         pass
 
     def start_chess(self):
