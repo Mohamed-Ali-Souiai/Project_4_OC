@@ -30,6 +30,7 @@ class Controllers:
     def get_players(self):
         for i in range(NUMBER_OF_PLAYERS):
             # while len(self.players) < 9:
+            print()
             player_name = self.view.enter_player_name()
             player_first_name = self.view.enter_player_first_name()
             player_date_of_birth = self.view.enter_player_date_of_birth()
@@ -51,6 +52,7 @@ class Controllers:
     def run(self):
         self.get_tournaments()
         self.rounds = self.get_players()
-        self.view.show_players(self.rounds.__str__())
+        print()
+        self.view.show_players(self.rounds)
 
 
