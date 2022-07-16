@@ -10,10 +10,10 @@ NUMBER_OF_PLAYERS = 2
 class Controllers:
     player_counter = 1
 
-    def __init__(self, tournaments, view):
+    def __init__(self, rounds, view):
         self.players = []
         self.tournament_details = []
-        self.tournaments = tournaments
+        self.rounds = rounds
         self.view = view
 
     def get_tournaments(self):
