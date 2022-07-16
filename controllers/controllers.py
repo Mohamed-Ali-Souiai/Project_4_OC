@@ -40,7 +40,9 @@ class Controllers:
         return self.players
 
     def results_chess(self):
-        pass
+        first_player_point = self.view.get_score_first_player()
+        second_player_point = self.view.get_score_second_player()
+        return first_player_point, second_player_point
 
     def start_chess(self):
         pass

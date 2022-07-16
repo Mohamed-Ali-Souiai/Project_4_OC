@@ -9,14 +9,12 @@ class Match:
     def set_results(self):
         pass
 
-    def set_score(self):
-        """
-                if self.player1.get_score()>self.player2.get_score():
-                    pass
-                match_unique = (self.list_player1, self.list_player2)
-                return match_unique"""
+    def meeting_discuss_between_players(self):
+        pass
+
+    def set_score(self, first_player, second_player):
+        match_unique = first_player, second_player
+        return match_unique
 
     def shuffle(self, color):
         random.shuffle(color)
-
-

@@ -61,3 +61,11 @@ class Views:
         if not ranking:
             return None
         return ranking
+
+    def get_score_first_player(self):
+        first_player = input("veuillez saisir le score du premier joueur")
+        return first_player
+
+    def get_score_second_player(self):
+        second_player = input("veuillez saisir le score du deuxieme joueur")
+        return second_player
