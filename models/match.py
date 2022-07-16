@@ -10,13 +10,13 @@ class Match:
         pass
 
     def set_score(self):
-        pass
+        """
+                if self.player1.get_score()>self.player2.get_score():
+                    pass
+                match_unique = (self.list_player1, self.list_player2)
+                return match_unique"""
 
     def shuffle(self, color):
         random.shuffle(color)
 
-    """def match(self):
-        if self.player1.get_score()>self.player2.get_score():
-            pass
-        match_unique = (self.list_player1, self.list_player2)
-        return match_unique"""
+

@@ -1,7 +1,6 @@
 from models.players import Players
 from models.tournaments import Tournaments
 from models.rounds import Rounds
-from typing import List
 
 
 NUMBER_OF_PLAYERS = 2
