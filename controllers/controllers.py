@@ -25,7 +25,7 @@ class Controllers:
         return self.tournament_details
 
     def get_players(self):
-        for i in range(NUMBER_OF_PLAYERS):
+        for i in range(1, NUMBER_OF_PLAYERS):
             # while len(self.players) < 9:
             print()
             player_name = self.view.enter_player_name()
