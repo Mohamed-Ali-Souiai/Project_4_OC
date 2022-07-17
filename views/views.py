@@ -21,6 +21,7 @@ class Views:
         pass
 
     def tournament_data(self, message):
+        print()
         data = input(message)
         if not data:
             return None
