@@ -53,4 +53,5 @@ class Controllers:
     def run(self):
         self.get_tournaments()
         self.get_players()
+        self.players = self.rounds.sort_by_rating(self.players)
         self.view.show_players(self.players)
