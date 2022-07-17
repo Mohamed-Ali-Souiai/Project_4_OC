@@ -19,7 +19,7 @@ class Rounds:
             list_rounds[i] = list_players[i], list_players[i+4]
         return list_rounds
 
-    def second_rounds(self, list_players, list_rounds=None):
+    def next_rounds(self, list_players, list_rounds=None):
         j = 0
         for i in range(2):
             list_rounds[i] = list_players[j], list_players[j + 1]

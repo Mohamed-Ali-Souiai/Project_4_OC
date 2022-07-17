@@ -15,22 +15,26 @@ class Controllers:
         self.view = view
 
     def get_tournaments(self):
-        name = self.view.enter_tournaments_name()
-        venue = self.view.enter_tournaments_venue()
-        date = self.view.enter_tournaments_date()
-        remarks_director = self.view.enter_tournaments_remarks_director()
-        self.tournament_details = Tournaments(name, venue, date, remarks_director)
+        name = self.view.tournament_data("veuillez entrer le nom du tournois")
+        venue = self.view.tournament_data("veuillez entrer le lieu du tournois")
+        date = self.view.tournament_data("veuillez entrer la date du tournois")
+        time_control = self.view.tournament_data("veuillez entrer le Controle du temps")
+        remarks_director = self.view.tournament_data("veuillez entrer la remarque  du derecteur")
+        self.tournament_details = Tournaments(name, venue,
+                                              date, time_control,
+                                              remarks_director
+                                              )
         return self.tournament_details
 
     def get_players(self):
         for i in range(1, NUMBER_OF_PLAYERS):
             # while len(self.players) < 9:
             print()
-            player_name = self.view.enter_player_name()
-            player_first_name = self.view.enter_player_first_name()
-            player_date_of_birth = self.view.enter_player_date_of_birth()
-            player_sex = self.view.enter_player_sex()
-            player_ranking = self.view.enter_player_ranking()
+            player_name = self.view.tournament_data("veuillez entrer le nom du joueur")
+            player_first_name = self.view.tournament_data("veuillez entrer le prénom du joueur")
+            player_date_of_birth = self.view.tournament_data("veuillez entrer la date de naissance du joueur")
+            player_sex = self.view.tournament_data("veuillez entrer le sexe du joueur")
+            player_ranking = self.view.tournament_data("veuillez entrer le classement du joueur")
             player = Players(player_name, player_first_name,
                              player_date_of_birth, player_sex,
                              player_ranking
@@ -39,8 +43,8 @@ class Controllers:
         return self.players
 
     def results_chess(self):
-        first_player_point = self.view.get_score_first_player()
-        second_player_point = self.view.get_score_second_player()
+        first_player_point = self.view.tournament_data("veuillez entrer le score du premier joueur")
+        second_player_point = self.view.tournament_data("veuillez entrer le nom du deuxieme joueur")
         return first_player_point, second_player_point
 
     def start_chess(self):
