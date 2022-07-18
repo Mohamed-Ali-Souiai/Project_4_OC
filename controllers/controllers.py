@@ -42,16 +42,26 @@ class Controllers:
             self.players.append(player)
         return self.players
 
-    def results_chess(self):
+    def match_results(self):
         first_player_point = self.view.tournament_data("veuillez entrer le score du premier joueur")
         second_player_point = self.view.tournament_data("veuillez entrer le nom du deuxieme joueur")
         return first_player_point, second_player_point
 
-    def start_chess(self):
-        pass
-
-    def run(self):
+    def start_round(self):
+        rounds_name = self.view.tournament_data("veuillez entrer le nom de tours")
+        next_rounds = ["rounds2", "rounds3", "rounds4"]
+        if rounds_name == "rounds1":
+            self.players = self.rounds.sort_by_rating(self.players)
+            list_match = self.rounds.first_rounds(self.players)
+            return list_match
+        elif rounds_name in next_rounds:
+            list_match = self.rounds.next_rounds(self.players)
+            return list_match
+        else:
+            return None
+    def start_tournament(self):
         self.get_tournaments()
         self.get_players()
-        self.players = self.rounds.sort_by_rating(self.players)
-        self.view.show_players(self.players)
+        self.start_round()
+        # self.players = self.rounds.sort_by_rating(self.players)
+        # self.view.show_players(self.players)

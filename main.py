@@ -6,8 +6,8 @@ from models.rounds import Rounds
 def main():
     views = Views()
     rounds = Rounds()
-    chess = Controllers(rounds, views)
-    chess.run()
+    chess_tournaments = Controllers(rounds, views)
+    chess_tournaments.start_tournament()
 
 
 if __name__ == '__main__':

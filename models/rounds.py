@@ -14,15 +14,17 @@ class Rounds:
                 j -= 1
         return list_players
 
-    def first_rounds(self, list_players, list_rounds=None):
+    def first_rounds(self, list_players):
+        list_match = []
         for i in range(4):
-            list_rounds[i] = list_players[i], list_players[i+4]
-        return list_rounds
+            list_match[i] = list_players[i], list_players[i+4]
+        return list_match
 
-    def next_rounds(self, list_players, list_rounds=None):
+    def next_rounds(self, list_players):
+        list_match = []
         index = 0
         copy_list_players = list_players.copy()
         while len(copy_list_players) > 0:
             match = copy_list_players.pop(index), copy_list_players.pop(index)
-            list_rounds.append(match)
-        return list_rounds
+            list_match.append(match)
+        return list_match
