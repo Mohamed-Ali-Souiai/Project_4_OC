@@ -9,3 +9,4 @@ class Players:
         self.player_date_of_birth = player_date_of_birth
         self.player_sex = player_sex
         self.player_ranking = player_ranking
+        self.opponent_player = []

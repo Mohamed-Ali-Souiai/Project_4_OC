@@ -19,7 +19,9 @@ class Rounds:
         """pair of players"""
         list_match = []
         for i in range(HALF_NUMBER_OF_PLAYERS):
-            match = list_players[i], list_players[i+4]
+            match = [list_players[i], list_players[i+4]]
+            list_players[i].opponent_player.append(list_players[i+4].player_name)
+            list_players[i+4].opponent_player.append(list_players[i].player_name)
             list_match.append(match)
         return list_match
 
@@ -28,6 +30,14 @@ class Rounds:
         index = 0
         copy_list_players = list_players.copy()
         while len(copy_list_players) > 0:
-            match = copy_list_players.pop(index), copy_list_players.pop(index)
+            i = index
+            if copy_list_players[index].player_name not in copy_list_players[i+1].opponent_player:
+                match = [copy_list_players.pop(index), copy_list_players.pop(index)]
+            elif copy_list_players[index].player_name not in copy_list_players[i+2].opponent_player:
+                match = [copy_list_players.pop(index), copy_list_players.pop(index+1)]
+            elif copy_list_players[index].player_name not in copy_list_players[i+3].opponent_player:
+                match = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
+            else:
+                match = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
             list_match.append(match)
         return list_match
