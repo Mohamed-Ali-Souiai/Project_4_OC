@@ -1,4 +1,5 @@
 NUMBER_OF_ROUND = 4
+HALF_NUMBER_OF_PLAYERS = 4
 
 
 class Rounds:
@@ -15,9 +16,11 @@ class Rounds:
         return list_players
 
     def first_rounds(self, list_players):
+        """pair of players"""
         list_match = []
-        for i in range(4):
-            list_match[i] = list_players[i], list_players[i+4]
+        for i in range(HALF_NUMBER_OF_PLAYERS):
+            match = list_players[i], list_players[i+4]
+            list_match.append(match)
         return list_match
 
     def next_rounds(self, list_players):

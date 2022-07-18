@@ -1,8 +1,9 @@
 from models.players import Players
 from models.tournaments import Tournaments
+from datetime import datetime
 
 
-NUMBER_OF_PLAYERS = 2
+NUMBER_OF_PLAYERS = 8
 
 
 class Controllers:
@@ -10,19 +11,20 @@ class Controllers:
 
     def __init__(self, rounds, view):
         self.players = []
-        self.tournament_details = []
+        self.tournament_details = None
         self.rounds = rounds
         self.view = view
 
     def get_tournaments(self):
+        date = []
         name = self.view.tournament_data("veuillez entrer le nom du tournois")
         venue = self.view.tournament_data("veuillez entrer le lieu du tournois")
-        date = self.view.tournament_data("veuillez entrer la date du tournois")
+        # date = self.view.tournament_data("veuillez entrer la date du tournois")
+        date.append(datetime.today().strftime('%d-%m-%Y'))
         time_control = self.view.tournament_data("veuillez entrer le Controle du temps")
         remarks_director = self.view.tournament_data("veuillez entrer la remarque  du derecteur")
-        self.tournament_details = Tournaments(name, venue,
-                                              date, time_control,
-                                              remarks_director
+        self.tournament_details = Tournaments(name, venue, date,
+                                              time_control, remarks_director
                                               )
         return self.tournament_details
 
@@ -35,33 +37,38 @@ class Controllers:
             player_date_of_birth = self.view.tournament_data("veuillez entrer la date de naissance du joueur")
             player_sex = self.view.tournament_data("veuillez entrer le sexe du joueur")
             player_ranking = self.view.tournament_data("veuillez entrer le classement du joueur")
-            player = Players(player_name, player_first_name,
-                             player_date_of_birth, player_sex,
-                             player_ranking
-                             )
+            player = Players(player_name, player_first_name, player_date_of_birth, player_sex, player_ranking)
             self.players.append(player)
         return self.players
 
-    def match_results(self):
-        first_player_point = self.view.tournament_data("veuillez entrer le score du premier joueur")
-        second_player_point = self.view.tournament_data("veuillez entrer le nom du deuxieme joueur")
-        return first_player_point, second_player_point
+    def rounds_results(self, list_players):
+        self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
+        player_points = []
+        for i in range(NUMBER_OF_PLAYERS):
+            player_points.append(
+                self.view.tournament_data(f"veuillez entrer le score du {list_players[i].player_name}")
+            )
 
     def start_round(self):
-        rounds_name = self.view.tournament_data("veuillez entrer le nom de tours")
+        """retourne """
+        self.rounds.rounds_name = self.view.tournament_data("veuillez entrer le nom de la tours")
+        self.rounds.date_start_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         next_rounds = ["rounds2", "rounds3", "rounds4"]
-        if rounds_name == "rounds1":
+        if self.rounds.rounds_name == "rounds1":
             self.players = self.rounds.sort_by_rating(self.players)
             list_match = self.rounds.first_rounds(self.players)
             return list_match
-        elif rounds_name in next_rounds:
+        elif self.rounds.rounds_name in next_rounds:
             list_match = self.rounds.next_rounds(self.players)
             return list_match
         else:
             return None
+
     def start_tournament(self):
-        self.get_tournaments()
-        self.get_players()
+        tournament = self.get_tournaments()
+        players_list = self.get_players()
+        self.view.show_details_tournament(tournament)
         self.start_round()
+        self.rounds_results(players_list)
         # self.players = self.rounds.sort_by_rating(self.players)
         # self.view.show_players(self.players)
