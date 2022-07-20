@@ -4,9 +4,6 @@ HALF_NUMBER_OF_PLAYERS = 4
 
 class Rounds:
 
-    def __init__(self):
-        pass
-
     def sort_by_rating(self, list_players):
         for i in range(len(list_players)):
             j = i
@@ -26,6 +23,7 @@ class Rounds:
         return list_match
 
     def next_rounds(self, list_players):
+        """retoune liste des match des rounds 2 3 4"""
         list_match = []
         index = 0
         copy_list_players = list_players.copy()
