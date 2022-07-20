@@ -49,7 +49,7 @@ class Controllers:
                 self.view.tournament_data(f"veuillez entrer le score du {list_players[i].player_name}")
             )
 
-    def start_round(self):
+    def start_round(self,):
         """retourne """
         self.rounds.rounds_name = self.view.tournament_data("veuillez entrer le nom de la tours")
         self.rounds.date_start_time = datetime.today().strftime('%d-%m-%Y %H:%M')
@@ -65,10 +65,16 @@ class Controllers:
             return None
 
     def start_tournament(self):
-        tournament = self.get_tournaments()
-        players_list = self.get_players()
-        self.view.show_details_tournament(tournament)
+        menu = self.view.show_menu()
+        if menu == '1':
+            self.tournament_details = self.get_tournaments()
+            self.players = self.get_players()
+        elif menu == '2':
+            self.start_round()
+        elif menu == '3':
+            self.rounds_results(self.players)
         self.start_round()
-        self.rounds_results(players_list)
-        # self.players = self.rounds.sort_by_rating(self.players)
+
+        #self.players = self.rounds.sort_by_rating(self.players)
+        #self.view.show_details_tournament(tournament)
         # self.view.show_players(self.players)
