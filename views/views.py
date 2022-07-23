@@ -29,7 +29,8 @@ class Views:
         menu = {'1': "Commencer un tournoi",
                 '2': "contenue une trounois",
                 '3': "saisir les résultats",
-                '4': "quitter"
+                '4': "afficher les résultats",
+                '5': "quitter"
                 }
         select = False
         while not select:
@@ -48,6 +49,9 @@ class Views:
                 print("saisir les résultats")
                 select = True
             elif selection == '4':
+                print("afficher les résultats")
+                select = True
+            elif selection == '5':
                 print("à la prochaine")
                 select = True
             else:
