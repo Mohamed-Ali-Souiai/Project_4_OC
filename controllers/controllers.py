@@ -70,30 +70,33 @@ class Controllers:
     def rounds_results(self):
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_OF_PLAYERS):
-            self.players[i].player_score.append(
-                int(
+            self.players[i].player_score += float(
                     self.view.tournament_data(
                         f"veuillez entrer le score du {self.players[i].player_name}"
                     )
                 )
-            )
-        self.start_tournament()
 
     def show_results(self):
         pass
 
     def start_round(self,):
         """retourne liste des match """
-        self.rounds.rounds_name = self.view.tournament_data(
-            "veuillez entrer le nom du tour"
-        )
+        boolean = False
+        while True:
+            self.rounds.rounds_name = self.view.tournament_data(
+                "veuillez entrer le nom du tour"
+            )
+            if self.rounds.rounds_name in ["rounds1", "rounds2", "rounds3", "rounds4"]:
+                break
         self.rounds.date_start_time = datetime.today().strftime('%d-%m-%Y %H:%M')
-        next_rounds = ["rounds2", "rounds3", "rounds4"]
         if self.rounds.rounds_name == "rounds1":
             self.players = self.rounds.sort_by_rating(self.players)
             list_match = self.rounds.first_rounds(self.players)
             return list_match
-        elif self.rounds.rounds_name in next_rounds:
+        elif self.rounds.rounds_name in ["rounds2", "rounds3", "rounds4"]:
+            self.players = self.rounds.sort_by_point(self.players)
+            for player in self.players:
+                print(vars(player))
             list_match = self.rounds.next_rounds(self.players)
             return list_match
         else:
@@ -118,7 +121,6 @@ class Controllers:
             print(vars(match[1]))
         self.rounds_results()
         self.start_round()
-
         print(f'\n le tournois : {vars(self.tournament_details)}')
 
         print(f'\n liste des matchs du tour{vars(self.rounds)}')
