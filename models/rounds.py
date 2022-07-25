@@ -1,8 +1,12 @@
+
 NUMBER_OF_ROUND = 4
 HALF_NUMBER_OF_PLAYERS = 4
 
 
 class Rounds:
+
+    def match(self):
+        pass
 
     def sort_by_rating(self, list_players):
         for i in range(len(list_players)):

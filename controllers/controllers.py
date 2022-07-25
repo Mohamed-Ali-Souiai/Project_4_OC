@@ -54,9 +54,13 @@ class Controllers:
             player_date_of_birth = self.view.tournament_data(
                 "veuillez entrer la date de naissance du joueur"
             )
-            player_sex = self.view.tournament_data(
-                "veuillez entrer le sexe du joueur"
-            )
+            condition = True
+            while condition:
+                player_sex = self.view.tournament_data(
+                    "veuillez entrer le sexe du joueur"
+                )
+                if player_sex in ['h', 'f']:
+                    condition = False
             player_ranking = int(
                 self.view.tournament_data(
                     "veuillez entrer le classement du joueur"
