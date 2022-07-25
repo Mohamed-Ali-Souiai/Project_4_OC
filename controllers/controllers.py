@@ -1,5 +1,6 @@
 from models.players import Players
 from models.tournaments import Tournaments
+from models.match import Match
 from datetime import datetime
 
 
@@ -14,6 +15,7 @@ class Controllers:
         self.tournament_details = None
         self.rounds = rounds
         self.view = view
+        self.match = []
 
     def get_tournaments(self):
         date = []
