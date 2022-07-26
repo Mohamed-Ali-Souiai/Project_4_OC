@@ -14,6 +14,7 @@ class Controllers:
         self.tournament_details = None
         self.rounds = rounds
         self.view = view
+        self.tournament_details = Tournaments()
 
     def control_date(self, date):
         try:
@@ -24,27 +25,20 @@ class Controllers:
         return date
 
     def get_tournaments(self):
-        date = []
-        remarks_director = []
-        name = self.view.tournament_data(
+        self.tournament_details.tournaments_name = self.view.tournament_data(
             "veuillez entrer le nom du tournois"
         )
-        venue = self.view.tournament_data(
+        self.tournament_details.tournaments_venue = self.view.tournament_data(
             "veuillez entrer le lieu du tournois"
         )
-        date.append(datetime.today().strftime('%d-%m-%Y'))
-        time_control = self.view.tournament_data(
+        self.tournament_details.tournaments_date.append(datetime.today().strftime('%d-%m-%Y'))
+        self.tournament_details.time_control = self.view.tournament_data(
             "veuillez entrer le Controle du temps"
         )
-        remarks_director.append(
+        self.tournament_details.remarks_director.append(
             self.view.tournament_data(
                 "veuillez entrer la remarque  du derecteur"
             )
-        )
-        self.tournament_details = Tournaments(
-            name, venue,
-            date, time_control,
-            remarks_director
         )
 
     def get_players(self):
@@ -86,6 +80,9 @@ class Controllers:
     """def single_match(self, player, score):
         match = Match(player, score)
         match.player_score()"""
+
+    def list_rounds(self):
+        self.tournament_details.list_rounds_tournament.append(self.rounds.list_match)
 
     def rounds_results(self):
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')

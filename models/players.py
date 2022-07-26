@@ -2,7 +2,7 @@
 class Players:
     def __init__(self, player_name, player_first_name,
                  player_date_of_birth, player_sex,
-                 player_ranking, number_points=0
+                 player_ranking, total_points=0
                  ):
         self.player_name = player_name
         self.player_first_name = player_first_name
@@ -10,4 +10,4 @@ class Players:
         self.player_sex = player_sex
         self.player_ranking = player_ranking
         self.opponent_player = []
-        self.player_score = number_points
+        self.total_points = total_points
