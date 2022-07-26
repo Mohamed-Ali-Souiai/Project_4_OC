@@ -25,7 +25,7 @@ class Rounds:
     def sort_by_point(self, list_players):
         for i in range(len(list_players)):
             j = i
-            while j > 0 and list_players[j-1].player_score < list_players[j].player_score:
+            while j > 0 and list_players[j-1].number_points < list_players[j].number_points:
                 list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
                 j -= 1
         return list_players
