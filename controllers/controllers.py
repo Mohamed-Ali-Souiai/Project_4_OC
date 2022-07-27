@@ -87,7 +87,7 @@ class Controllers:
     def rounds_results(self):
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_OF_PLAYERS):
-            self.players[i].player_score += float(
+            self.players[i].total_points += float(
                     self.view.tournament_data(
                         f"veuillez entrer le score du {self.players[i].player_name}"
                     )
@@ -129,8 +129,11 @@ class Controllers:
         list_match = self.start_round()
         print(f'\n le tournois : {vars(self.tournament_details)} \n')
         print(f'liste des matchs du tour{vars(self.rounds)}')
+        i = 1
         for match in list_match:
-            print(vars(match))
+            print('match unique')
+            print(vars(match[0][0]))
+            print(vars(match[1][0]))
         self.rounds_results()
         self.start_round()
         print(f'\n le tournois : {vars(self.tournament_details)}')
