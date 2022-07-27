@@ -2,11 +2,12 @@ from models.players import Players
 from models.tournaments import Tournaments
 from datetime import datetime
 
-NUMBER_OF_PLAYERS = 8
-
+NUMBER_PLAYERS = 8
+NUMBER_ROUNDS = 4
+rounds_counter = 4
 
 class Controllers:
-    player_counter = 1
+
 
     def __init__(self, rounds, view):
         self.players = []
@@ -42,7 +43,7 @@ class Controllers:
 
     def get_players(self):
         condition = True
-        for i in range(NUMBER_OF_PLAYERS):
+        for i in range(NUMBER_PLAYERS):
             # while len(self.players) < 9:
             print()
             player_name = self.view.tournament_data(
@@ -81,7 +82,7 @@ class Controllers:
 
     def rounds_results(self):
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
-        for i in range(NUMBER_OF_PLAYERS):
+        for i in range(NUMBER_PLAYERS):
             self.players[i].total_points += float(
                     self.view.tournament_data(
                         f"veuillez entrer le score du {self.players[i].player_name}"
@@ -111,27 +112,35 @@ class Controllers:
             list_match = self.rounds.next_rounds(self.players)
             return list_match
 
-    def start_tournament(self):
+    def start_tournament(self, rounds_counter=4):
         menu = self.view.show_menu()
         if menu == '1':
             self.get_tournaments()
             self.get_players()
+            for i in range(NUMBER_ROUNDS):
+                list_match = self.start_round()
+                for match in list_match:
+                    print('match unique')
+                    print(vars(match[0][0]))
+                    print(vars(match[1][0]))
+                self.tournament_details.list_rounds_tournament.append(list_match)
+                self.rounds_results()
+            if rounds_counter > 0:
+                rounds_counter -= 1
+                self.start_round(rounds_counter)
         elif menu == '2':
-            self.start_round()
+            print('encours')
         elif menu == '3':
             self.rounds_results()
         elif menu == '4':
             self.show_results()
-        list_match = self.start_round()
+
         print(f'\n le tournois : {vars(self.tournament_details)} \n')
         print(f'liste des matchs du tour{vars(self.rounds)}')
-        i = 1
-        for match in list_match:
-            print('match unique')
-            print(vars(match[0][0]))
-            print(vars(match[1][0]))
-        self.rounds_results()
-        self.start_round()
+
+
+
+
         print(f'\n le tournois : {vars(self.tournament_details)}')
 
         print(f'\n liste des matchs du tour{vars(self.rounds)}')
