@@ -32,6 +32,7 @@ class Rounds:
 
     def first_rounds(self, list_players):
         """pair of players"""
+        self.list_match = []
         for i in range(HALF_NUMBER_OF_PLAYERS):
             first_player = self.match.player_score(list_players[i], START_SCORE)
             second_player = self.match.player_score(list_players[i+4], START_SCORE)
@@ -45,7 +46,7 @@ class Rounds:
     def next_rounds(self, list_players):
         # a refaire
         """retoune liste des match des rounds 2 3 4"""
-        list_match = []
+        self.list_match = []
         index = 0
         copy_list_players = list_players.copy()
         while len(copy_list_players) > 0:
@@ -58,5 +59,5 @@ class Rounds:
                 match = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
             else:
                 match = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
-            list_match.extend(match)
-        return list_match
+            self.list_match.extend(match)
+        return self.list_match

@@ -2,7 +2,6 @@ from models.players import Players
 from models.tournaments import Tournaments
 from datetime import datetime
 
-
 NUMBER_OF_PLAYERS = 8
 
 
@@ -77,10 +76,6 @@ class Controllers:
             )
             self.players.append(player)
 
-    """def single_match(self, player, score):
-        match = Match(player, score)
-        match.player_score()"""
-
     def list_rounds(self):
         self.tournament_details.list_rounds_tournament.append(self.rounds.list_match)
 
@@ -113,7 +108,8 @@ class Controllers:
             self.players = self.rounds.sort_by_point(self.players)
             for player in self.players:
                 print(vars(player))
-            self.players = self.rounds.next_rounds(self.players)
+            list_match = self.rounds.next_rounds(self.players)
+            return list_match
 
     def start_tournament(self):
         menu = self.view.show_menu()
