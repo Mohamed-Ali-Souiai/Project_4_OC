@@ -4,10 +4,9 @@ from datetime import datetime
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
-rounds_counter = 4
+
 
 class Controllers:
-
 
     def __init__(self, rounds, view):
         self.players = []
@@ -80,19 +79,21 @@ class Controllers:
     def list_rounds(self):
         self.tournament_details.list_rounds_tournament.append(self.rounds.list_match)
 
-    def rounds_results(self):
+    def end_rounds_results(self):
+        score = []
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_PLAYERS):
-            self.players[i].total_points += float(
+            score.append(float(
                     self.view.tournament_data(
                         f"veuillez entrer le score du {self.players[i].player_name}"
                     )
-                )
+                ))
+        return self.rounds.rounds_results(self.players, score)
 
     def show_results(self):
         pass
 
-    def start_round(self,):
+    def start_round(self):
         """retourne liste des match """
         while True:
             self.rounds.rounds_name = self.view.tournament_data(
@@ -112,40 +113,35 @@ class Controllers:
             list_match = self.rounds.next_rounds(self.players)
             return list_match
 
-    def start_tournament(self, rounds_counter=4):
+    def start_tournament(self):
+        rounds_counter = 4
         menu = self.view.show_menu()
         if menu == '1':
             self.get_tournaments()
             self.get_players()
             for i in range(NUMBER_ROUNDS):
-                list_match = self.start_round()
-                for match in list_match:
-                    print('match unique')
-                    print(vars(match[0][0]))
-                    print(vars(match[1][0]))
-                self.tournament_details.list_rounds_tournament.append(list_match)
-                self.rounds_results()
+                self.players = self.start_round()
+                print(vars(self.players))
+                # self.tournament_details.list_rounds_tournament.append(list_match)
+                self.tournament_details.list_rounds_tournament.append(
+                    self.end_rounds_results()
+                )
             if rounds_counter > 0:
                 rounds_counter -= 1
-                self.start_round(rounds_counter)
-        elif menu == '2':
+                self.start_round()
+        """elif menu == '2':
             print('encours')
         elif menu == '3':
-            self.rounds_results()
+            self.end_rounds_results()
         elif menu == '4':
-            self.show_results()
+            self.show_results()"""
 
-        print(f'\n le tournois : {vars(self.tournament_details)} \n')
+        """print(f'\n le tournois : {vars(self.tournament_details)} \n')
         print(f'liste des matchs du tour{vars(self.rounds)}')
-
-
-
-
         print(f'\n le tournois : {vars(self.tournament_details)}')
-
         print(f'\n liste des matchs du tour{vars(self.rounds)}')
         for player in self.players:
-            print(vars(player))
+            print(vars(player))"""
 
         # self.players = self.rounds.sort_by_rating(self.players)
         # self.view.show_details_tournament(tournament)

@@ -36,10 +36,9 @@ class Rounds:
         for i in range(HALF_NUMBER_OF_PLAYERS):
             first_player = self.match.player_score(list_players[i], START_SCORE)
             second_player = self.match.player_score(list_players[i+4], START_SCORE)
-            pair = self.match.pair_generation(first_player, second_player)
-            """[list_players[i], list_players[i+4]]"""
-            """list_players[i].opponent_player.append(list_players[i+4].player_name)
-            list_players[i+4].opponent_player.append(list_players[i].player_name)"""
+            pair = self.match.player_pair(first_player, second_player)
+            list_players[i].opponent_player.append(list_players[i+4].player_name)
+            list_players[i+4].opponent_player.append(list_players[i].player_name)
             self.list_match.append(pair)
         return self.list_match
 
@@ -60,4 +59,13 @@ class Rounds:
             else:
                 match = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
             self.list_match.extend(match)
+        return self.list_match
+
+    def rounds_results(self, list_players, score):
+        self.list_match = []
+        for i in range(0, HALF_NUMBER_OF_PLAYERS, 2):
+            first_player = self.match.player_score(list_players[i], score)
+            second_player = self.match.player_score(list_players[i + 1], score)
+            pair = self.match.player_pair(first_player, second_player)
+            self.list_match.append(pair)
         return self.list_match
