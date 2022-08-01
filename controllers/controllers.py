@@ -10,7 +10,6 @@ class Controllers:
 
     def __init__(self, rounds, view):
         self.players = []
-        self.tournament_details = None
         self.rounds = rounds
         self.view = view
         self.tournament_details = Tournaments()
@@ -77,6 +76,7 @@ class Controllers:
             self.players.append(player)
 
     def list_rounds(self):
+        """retourne les resultats des tours"""
         self.tournament_details.list_rounds_tournament.append(self.rounds.list_match)
 
     def end_rounds_results(self):
