@@ -46,27 +46,27 @@ class Controllers:
             # while len(self.players) < 9:
             print()
             player_name = self.view.tournament_data(
-                "veuillez entrer le nom du joueur"
+                f"veuillez entrer le nom du joueur n°{i+1}"
             )
             player_first_name = self.view.tournament_data(
-                "veuillez entrer le prénom du joueur"
+                f"veuillez entrer le prénom du joueur n°{i+1}"
             )
             while condition:
                 player_date_of_birth = self.view.tournament_data(
-                    "veuillez entrer la date de naissance du joueur"
+                    f"veuillez entrer la date de naissance du joueur n°{i+1}"
                 )
                 if self.control_date(player_date_of_birth):
                     break
 
             while condition:
                 player_sex = self.view.tournament_data(
-                    "veuillez entrer le sexe du joueur"
+                    f"veuillez entrer le sexe du joueur n°{i+1}"
                 )
                 if player_sex in ['h', 'f']:
                     break
             player_ranking = int(
                 self.view.tournament_data(
-                    "veuillez entrer le classement du joueur"
+                    f"veuillez entrer le classement du joueur n°{i+1}"
                 )
             )
             player = Players(
@@ -80,6 +80,7 @@ class Controllers:
         self.tournament_details.list_rounds_tournament.append(self.rounds.list_match)
 
     def end_rounds_results(self):
+        "retourne le resultat de la tours"
         score = []
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_PLAYERS):
@@ -94,7 +95,7 @@ class Controllers:
         pass
 
     def start_round(self):
-        """retourne liste des match """
+        """retourne liste des match des tours """
         while True:
             self.rounds.rounds_name = self.view.tournament_data(
                 "veuillez entrer le nom du tour"
@@ -104,31 +105,32 @@ class Controllers:
         self.rounds.date_start_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         if self.rounds.rounds_name == "rounds1":
             self.players = self.rounds.sort_by_rating(self.players)
-            list_match = self.rounds.first_rounds(self.players)
-            return list_match
+            self.players = self.rounds.first_rounds(self.players)
+            # return self.players
         elif self.rounds.rounds_name in ["rounds2", "rounds3", "rounds4"]:
             self.players = self.rounds.sort_by_point(self.players)
             for player in self.players:
                 print(vars(player))
-            list_match = self.rounds.next_rounds(self.players)
-            return list_match
+            self.players = self.rounds.next_rounds(self.players)
+            # return self.players
 
     def start_tournament(self):
-        rounds_counter = 4
+        # rounds_counter = 4
         menu = self.view.show_menu()
         if menu == '1':
             self.get_tournaments()
             self.get_players()
             for i in range(NUMBER_ROUNDS):
-                self.players = self.start_round()
-                print(vars(self.players))
+                self.start_round()
+                for player in self.players:
+                    print(vars(player))
                 # self.tournament_details.list_rounds_tournament.append(list_match)
                 self.tournament_details.list_rounds_tournament.append(
                     self.end_rounds_results()
                 )
-            if rounds_counter > 0:
+            """if rounds_counter > 0:
                 rounds_counter -= 1
-                self.start_round()
+                self.start_round()"""
         """elif menu == '2':
             print('encours')
         elif menu == '3':

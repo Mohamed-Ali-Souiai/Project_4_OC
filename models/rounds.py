@@ -2,6 +2,7 @@ from models.match import Match
 
 START_SCORE = 0
 NUMBER_OF_ROUND = 4
+NUMBER_PLAYERS = 8
 HALF_NUMBER_OF_PLAYERS = 4
 
 
@@ -34,12 +35,10 @@ class Rounds:
         """pair of players"""
         self.list_match = []
         for i in range(HALF_NUMBER_OF_PLAYERS):
-            first_player = self.match.player_score(list_players[i], START_SCORE)
-            second_player = self.match.player_score(list_players[i+4], START_SCORE)
-            pair = self.match.player_pair(first_player, second_player)
+            pair = [list_players[i], list_players[i+4]]
             list_players[i].opponent_player.append(list_players[i+4].player_name)
             list_players[i+4].opponent_player.append(list_players[i].player_name)
-            self.list_match.append(pair)
+            self.list_match.extend(pair)
         return self.list_match
 
     def next_rounds(self, list_players):
@@ -51,19 +50,26 @@ class Rounds:
         while len(copy_list_players) > 0:
             i = index
             if copy_list_players[index].player_name not in copy_list_players[i+1].opponent_player:
-                match = [copy_list_players.pop(index), copy_list_players.pop(index)]
+                pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
             elif copy_list_players[index].player_name not in copy_list_players[i+2].opponent_player:
-                match = [copy_list_players.pop(index), copy_list_players.pop(index+1)]
+                pair = [copy_list_players.pop(index), copy_list_players.pop(index+1)]
             elif copy_list_players[index].player_name not in copy_list_players[i+3].opponent_player:
-                match = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
+                pair = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
             else:
-                match = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
-            self.list_match.extend(match)
+                pair = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
+            self.list_match.extend(pair)
+        for j in range(NUMBER_PLAYERS):
+            if j in [1, 3, 5, 7]:
+                continue
+            self.list_match[j].opponent_player.append(self.list_match[j+1].player_name)
+            self.list_match[j+1].opponent_player.append(self.list_match[j].player_name)
         return self.list_match
 
     def rounds_results(self, list_players, score):
         self.list_match = []
-        for i in range(0, HALF_NUMBER_OF_PLAYERS, 2):
+        for i in range(NUMBER_PLAYERS):
+            if i in [1, 3, 5, 7]:
+                continue
             first_player = self.match.player_score(list_players[i], score)
             second_player = self.match.player_score(list_players[i + 1], score)
             pair = self.match.player_pair(first_player, second_player)
