@@ -16,6 +16,7 @@ class Rounds:
         self.match = Match()
 
     def sort_by_rating(self, list_players):
+        """" retourne liste des joueurs trier par classement"""
         for i in range(len(list_players)):
             j = i
             while j > 0 and list_players[j-1].player_ranking > list_players[j].player_ranking:
@@ -24,6 +25,7 @@ class Rounds:
         return list_players
 
     def sort_by_point(self, list_players):
+        """retourne liste des joueurs trier par point"""
         for i in range(len(list_players)):
             j = i
             while j > 0 and list_players[j-1].total_points < list_players[j].total_points:
@@ -32,7 +34,7 @@ class Rounds:
         return list_players
 
     def first_rounds(self, list_players):
-        """pair of players"""
+        """paire  des joueurs  de la tours """
         self.list_match = []
         for i in range(HALF_NUMBER_OF_PLAYERS):
             pair = [list_players[i], list_players[i+4]]
@@ -66,6 +68,7 @@ class Rounds:
         return self.list_match
 
     def rounds_results(self, list_players, score):
+        """retourne liste des match de la tours"""
         self.list_match = []
         for i in range(NUMBER_PLAYERS):
             if i in [1, 3, 5, 7]:
