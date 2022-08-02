@@ -75,12 +75,13 @@ class Controllers:
             )
             self.players.append(player)
 
-    def list_rounds(self):
-        """retourne les resultats des tours"""
-        self.tournament_details.list_rounds_tournament.append(self.rounds.list_match)
+    def rounds_match(self):
+        """associes les tours a des matchs ds un dictionnaire"""
+        self.tournament_details.list_rounds_tournament[self.rounds] = self.rounds.list_match
+        self.tournament_details.data_base_tournaments()
 
     def end_rounds_results(self):
-        "retourne le resultat de la tours"
+        """retourne le resultat de la tours """
         score = []
         self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_PLAYERS):
@@ -89,6 +90,7 @@ class Controllers:
                         f"veuillez entrer le score du {self.players[i].player_name}"
                     )
                 ))
+            self.players[i].total_points += score[i]
         return self.rounds.rounds_results(self.players, score)
 
     def show_results(self):
@@ -124,13 +126,8 @@ class Controllers:
                 self.start_round()
                 for player in self.players:
                     print(vars(player))
-                # self.tournament_details.list_rounds_tournament.append(list_match)
-                self.tournament_details.list_rounds_tournament.append(
-                    self.end_rounds_results()
-                )
-            """if rounds_counter > 0:
-                rounds_counter -= 1
-                self.start_round()"""
+                #self.rounds_match()
+
         """elif menu == '2':
             print('encours')
         elif menu == '3':

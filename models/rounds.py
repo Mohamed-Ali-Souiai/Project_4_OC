@@ -15,6 +15,14 @@ class Rounds:
         self.list_match = []
         self.match = Match()
 
+    def rounds_table(self):
+        rounds = {
+            'rounds_name': self.rounds_name,
+            'date_start_time': self.date_start_time,
+            'date_end_time': self.date_end_time,
+            'list_match': self.list_match
+        }
+
     def sort_by_rating(self, list_players):
         """" retourne liste des joueurs trier par classement"""
         for i in range(len(list_players)):
