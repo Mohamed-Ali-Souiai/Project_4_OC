@@ -15,13 +15,25 @@ class Rounds:
         self.list_match = []
         self.match = Match()
 
+    def __str__(self):
+        """Used in print."""
+        return f"\nNom de la tours:{self.rounds_name}\n" \
+               f"Date debut:{self.date_start_time}\n" \
+               f"Date fin:{self.date_end_time}\n" \
+               f"liste des matchs:{self.list_match}\n"
+
+    def __repr__(self):
+        """Used in print."""
+        return str(self)
+
     def rounds_table(self):
-        rounds = {
+        dict_rounds = {
             'rounds_name': self.rounds_name,
             'date_start_time': self.date_start_time,
             'date_end_time': self.date_end_time,
             'list_match': self.list_match
         }
+        return dict_rounds
 
     def sort_by_rating(self, list_players):
         """" retourne liste des joueurs trier par classement"""
@@ -81,8 +93,8 @@ class Rounds:
         for i in range(NUMBER_PLAYERS):
             if i in [1, 3, 5, 7]:
                 continue
-            first_player = self.match.player_score(list_players[i], score)
-            second_player = self.match.player_score(list_players[i + 1], score)
+            first_player = self.match.player_score(list_players[i], score[i])
+            second_player = self.match.player_score(list_players[i + 1], score[i + 1])
             pair = self.match.player_pair(first_player, second_player)
             self.list_match.append(pair)
         return self.list_match

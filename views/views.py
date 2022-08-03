@@ -27,10 +27,9 @@ class Views:
     def show_menu(self):
         global selection
         menu = {'1': "Commencer un tournoi",
-                '2': "contenue une trounois",
-                '3': "saisir les résultats",
-                '4': "afficher les résultats",
-                '5': "quitter"
+                '2': "modifier le classement des joueurs",
+                '3': "afficher les résultats",
+                '4': "quitter"
                 }
         select = False
         while not select:
@@ -43,16 +42,13 @@ class Views:
                 print("Commencer un tournoi")
                 select = True
             elif selection == '2':
-                print("contenue une trounois")
+                print("modifier le classement des joueurs")
                 select = True
             elif selection == '3':
-                print("saisir les résultats")
-                select = True
-            elif selection == '4':
                 print("afficher les résultats")
                 select = True
-            elif selection == '5':
-                print("à la prochaine")
+            elif selection == '4':
+                print("quitter")
                 select = True
             else:
                 print("Option sélectionnée inconnue !")

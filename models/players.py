@@ -12,8 +12,20 @@ class Players:
         self.opponent_player = []
         self.total_points = total_points
 
+    def __str__(self):
+        """Used in print."""
+        return f"\nNom de famille:{self.player_name}\n" \
+               f"Prénom:{self.player_first_name}\n" \
+               f"Date de naissance:{self.player_date_of_birth}\n" \
+               f"Sexe:{self.player_sex}\n" \
+               f"Classement:{self.player_ranking}\n"
+
+    def __repr__(self):
+        """Used in print."""
+        return str(self)
+
     def player_table(self):
-        player = {
+        dict_player = {
             'name': self.player_name,
             'first_name': self.player_first_name,
             'player_date_of_birth': self.player_date_of_birth,
@@ -21,4 +33,5 @@ class Players:
             'player_ranking': self.player_ranking,
             'total_points': self.total_points
         }
+        return dict_player
 
