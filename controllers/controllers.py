@@ -134,7 +134,13 @@ class Controllers:
                 print(self.rounds)
                 data_base = TinyDB('data_base_rounds.json')
                 data_base.insert(self.rounds.rounds_table())
-                # self.rounds_match()
+            self.players = self.rounds.sort_by_point(self.players)
+            print("classement des joueurs")
+            for i in range(NUMBER_PLAYERS):
+                print(f"-{i+1}- {self.players[i].player_table()}\n"
+                      f"avec un score de: {self.players[i].total_points}\n"
+                      )
+
 
         """elif menu == '2':
             print('encours')
