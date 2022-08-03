@@ -98,3 +98,4 @@ class Rounds:
             pair = self.match.player_pair(first_player, second_player)
             self.list_match.append(pair)
         return self.list_match
+
