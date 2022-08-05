@@ -1,7 +1,7 @@
 from models.players import Players
 from models.tournaments import Tournaments
 from datetime import datetime
-from tinydb import TinyDB
+from tinydb import TinyDB, queries
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
@@ -39,9 +39,9 @@ class Controllers:
                 "veuillez entrer la remarque  du derecteur: "
             )
         )
-        data_base = TinyDB('data_base_tournaments.json')
-        data_base.insert(self.tournament_details.tournaments_table())
-
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournament_table = tournament_data_base.table('tournaments')
+        tournament_table.insert(self.tournament_details.tournaments_table())
 
     def get_players(self):
         condition = True
@@ -78,8 +78,9 @@ class Controllers:
                 player_ranking
             )
             self.players.append(player)
-            data_base = TinyDB('data_base_player.json')
-            data_base.insert(player.player_table())
+            players_data_base = TinyDB('data_base_player.json')
+            players_table = players_data_base.table('players')
+            players_table.insert(player.player_table())
 
     def rounds_match(self):
         """associes les tours a des matchs ds un dictionnaire"""
@@ -132,8 +133,9 @@ class Controllers:
                 self.start_round()
                 self.end_rounds_results()
                 print(self.rounds)
-                data_base = TinyDB('data_base_rounds.json')
-                data_base.insert(self.rounds.rounds_table())
+                rounds_data_base = TinyDB('data_base_rounds.json')
+                rounds_table = rounds_data_base.table(f'rounds{i+1}')
+                rounds_table.insert(self.rounds.rounds_table())
             self.players = self.rounds.sort_by_point(self.players)
             print("classement des joueurs")
             for i in range(NUMBER_PLAYERS):

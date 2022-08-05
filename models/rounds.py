@@ -70,12 +70,11 @@ class Rounds:
         index = 0
         copy_list_players = list_players.copy()
         while len(copy_list_players) > 0:
-            i = index
-            if copy_list_players[index].player_name not in copy_list_players[i+1].opponent_player:
+            if copy_list_players[index].player_name not in copy_list_players[index+1].opponent_player:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
-            elif copy_list_players[index].player_name not in copy_list_players[i+2].opponent_player:
+            elif copy_list_players[index].player_name not in copy_list_players[index+2].opponent_player:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index+1)]
-            elif copy_list_players[index].player_name not in copy_list_players[i+3].opponent_player:
+            elif copy_list_players[index].player_name not in copy_list_players[index+3].opponent_player:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
             else:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
