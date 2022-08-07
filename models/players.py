@@ -34,5 +34,3 @@ class Players:
             'total_points': self.total_points
         }
         return dict_player
-
-

@@ -48,15 +48,18 @@ class Rounds:
         """retourne liste des joueurs trier par point"""
         for i in range(len(list_players)):
             j = i
-            while j > 0 and list_players[j-1].total_points < list_players[j].total_points:
-                list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
+            while j > 0 and list_players[j-1].total_points <= list_players[j].total_points:
+                if list_players[j-1].total_points < list_players[j].total_points:
+                    list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
+                elif list_players[j-1].player_ranking > list_players[j].player_ranking:
+                    list_players[j - 1], list_players[j] = list_players[j], list_players[j - 1]
                 j -= 1
         return list_players
 
     def first_rounds(self, list_players):
         """paire  des joueurs  de la tours """
         self.list_match = []
-        for i in range(HALF_NUMBER_OF_PLAYERS):
+        for i in range(len(list_players)):
             pair = [list_players[i], list_players[i+4]]
             list_players[i].opponent_player.append(list_players[i+4].player_name)
             list_players[i+4].opponent_player.append(list_players[i].player_name)

@@ -16,6 +16,7 @@ class Controllers:
         self.tournament_details = Tournaments()
 
     def control_date(self, date):
+        """retourne une date valide"""
         try:
             datetime.strptime(date, '%d-%m-%Y')
         except ValueError:
@@ -24,6 +25,7 @@ class Controllers:
         return date
 
     def get_tournaments(self):
+        """retourne les details de la tournois"""
         self.tournament_details.tournaments_name = self.view.tournament_data(
             "veuillez entrer le nom du tournois: "
         )
@@ -44,6 +46,7 @@ class Controllers:
         tournament_table.insert(self.tournament_details.tournaments_table())
 
     def get_players(self):
+        """retourne la liste des jouers"""
         condition = True
         for i in range(NUMBER_PLAYERS):
             # while len(self.players) < 9:
@@ -82,16 +85,11 @@ class Controllers:
             players_table = players_data_base.table('players')
             players_table.insert(player.player_table())
 
-    def rounds_match(self):
-        """associes les tours a des matchs ds un dictionnaire"""
-        self.tournament_details.list_rounds_tournament[self.rounds.rounds_name] = self.rounds.list_match
-        self.tournament_details.data_base_tournaments()
-
     def end_rounds_results(self):
         """retourne le resultat de la tours """
         score = []
         players = []
-        self.rounds.end_date_time = datetime.today().strftime('%d-%m-%Y %H:%M')
+        self.rounds.date_end_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_PLAYERS):
             score.append(float(
                     self.view.tournament_data(
@@ -106,7 +104,7 @@ class Controllers:
         pass
 
     def start_round(self):
-        """retourne liste des match des tours """
+        """retourne liste des joueur ranger par ordre des matchs dans un tours """
         while True:
             self.rounds.rounds_name = self.view.tournament_data(
                 "veuillez entrer le nom du tour: "
@@ -142,23 +140,3 @@ class Controllers:
                 print(f"-{i+1}- {self.players[i].player_table()}\n"
                       f"avec un score de: {self.players[i].total_points}\n"
                       )
-
-
-
-        """elif menu == '2':
-            print('encours')
-        elif menu == '3':
-            self.end_rounds_results()
-        elif menu == '4':
-            self.show_results()"""
-
-        """print(f'\n le tournois : {vars(self.tournament_details)} \n')
-        print(f'liste des matchs du tour{vars(self.rounds)}')
-        print(f'\n le tournois : {vars(self.tournament_details)}')
-        print(f'\n liste des matchs du tour{vars(self.rounds)}')
-        for player in self.players:
-            print(vars(player))"""
-
-        # self.players = self.rounds.sort_by_rating(self.players)
-        # self.view.show_details_tournament(tournament)
-        # self.view.show_players(self.players)

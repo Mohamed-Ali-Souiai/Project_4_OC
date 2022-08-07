@@ -35,8 +35,3 @@ class Tournaments:
             'remarks_director': self.remarks_director
         }
         return dict_tournaments
-
-
-"""    def data_base_tournaments(self):
-        data_base = TinyDB('data_base_tournaments.json')
-        data_base.insert()"""
