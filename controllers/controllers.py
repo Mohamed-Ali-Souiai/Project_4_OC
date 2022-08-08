@@ -1,5 +1,4 @@
 from models.players import Players
-from models.tournaments import Tournaments
 from datetime import datetime
 from tinydb import TinyDB, queries
 
@@ -9,11 +8,12 @@ NUMBER_ROUNDS = 4
 
 class Controllers:
 
-    def __init__(self, rounds, view):
+    def __init__(self, tournaments, rounds, view):
         self.players = []
         self.rounds = rounds
         self.view = view
-        self.tournament_details = Tournaments()
+        self.tournaments = tournaments
+        # self.tournament_details = Tournaments()
 
     def control_date(self, date):
         """retourne une date valide"""
@@ -26,24 +26,21 @@ class Controllers:
 
     def get_tournaments(self):
         """retourne les details de la tournois"""
-        self.tournament_details.tournaments_name = self.view.tournament_data(
+        self.tournaments.tournaments_name = self.view.tournament_data(
             "veuillez entrer le nom du tournois: "
         )
-        self.tournament_details.tournaments_venue = self.view.tournament_data(
+        self.tournaments.tournaments_venue = self.view.tournament_data(
             "veuillez entrer le lieu du tournois: "
         )
-        self.tournament_details.tournaments_date.append(datetime.today().strftime('%d-%m-%Y'))
-        self.tournament_details.time_control = self.view.tournament_data(
+        self.tournaments.tournaments_date.append(datetime.today().strftime('%d-%m-%Y'))
+        self.tournaments.time_control = self.view.tournament_data(
             "veuillez entrer le Controle du temps: "
         )
-        self.tournament_details.remarks_director.append(
+        self.tournaments.remarks_director.append(
             self.view.tournament_data(
-                "veuillez entrer la remarque  du derecteur: "
+                "veuillez entrer la remarque  du directeur: "
             )
         )
-        tournament_data_base = TinyDB('data_base_tournaments.json')
-        tournament_table = tournament_data_base.table('tournaments')
-        tournament_table.insert(self.tournament_details.tournaments_table())
 
     def get_players(self):
         """retourne la liste des jouers"""
@@ -81,9 +78,23 @@ class Controllers:
                 player_ranking
             )
             self.players.append(player)
-            players_data_base = TinyDB('data_base_player.json')
-            players_table = players_data_base.table('players')
-            players_table.insert(player.player_table())
+            self.tournaments.list_players.append(player.player_table())
+
+    def start_round(self):
+        """retourne liste des joueur ranger par ordre des matchs dans un tours """
+        while True:
+            self.rounds.rounds_name = self.view.tournament_data(
+                "veuillez entrer le nom du tour: "
+            )
+            if self.rounds.rounds_name in ["rounds1", "rounds2", "rounds3", "rounds4"]:
+                break
+        self.rounds.date_start_time = datetime.today().strftime('%d-%m-%Y %H:%M')
+        if self.rounds.rounds_name == "rounds1":
+            self.players = self.rounds.sort_by_rating(self.players)
+            self.players = self.rounds.first_rounds(self.players)
+        elif self.rounds.rounds_name in ["rounds2", "rounds3", "rounds4"]:
+            self.players = self.rounds.sort_by_point(self.players)
+            self.players = self.rounds.next_rounds(self.players)
 
     def end_rounds_results(self):
         """retourne le resultat de la tours """
@@ -101,42 +112,34 @@ class Controllers:
         return self.rounds.rounds_results(players, score)
 
     def show_results(self):
-        pass
+        self.players = self.rounds.sort_by_point(self.players)
+        print("classement des joueurs")
+        for i in range(NUMBER_PLAYERS):
+            print(f"-{i + 1}- {self.players[i].player_table()}\n"
+                  f"avec un score de: {self.players[i].total_points}\n"
+                  )
 
-    def start_round(self):
-        """retourne liste des joueur ranger par ordre des matchs dans un tours """
-        while True:
-            self.rounds.rounds_name = self.view.tournament_data(
-                "veuillez entrer le nom du tour: "
-            )
-            if self.rounds.rounds_name in ["rounds1", "rounds2", "rounds3", "rounds4"]:
-                break
-        self.rounds.date_start_time = datetime.today().strftime('%d-%m-%Y %H:%M')
-        if self.rounds.rounds_name == "rounds1":
-            self.players = self.rounds.sort_by_rating(self.players)
-            self.players = self.rounds.first_rounds(self.players)
-            # return self.players
-        elif self.rounds.rounds_name in ["rounds2", "rounds3", "rounds4"]:
-            self.players = self.rounds.sort_by_point(self.players)
-            self.players = self.rounds.next_rounds(self.players)
-            # return self.players
+    def data_logging(self, rounds):
+        if rounds == 0:
+            tournament_data_base = TinyDB('data_base_tournaments.json')
+            tournament_table = tournament_data_base.table(f'{self.tournaments.tournaments_name}')
+            tournament_table.insert(self.tournaments.tournaments_table())
+        else:
+            tournament_data_base = TinyDB('data_base_tournaments.json')
+            tournament_table = tournament_data_base.table(f'{self.tournaments.tournaments_name}')
+            list_rounds = self.tournaments.tournaments_table()
+            tournament_table.update({'list_rounds_tournament': list_rounds['list_rounds_tournament']})
 
-    def start_tournament(self):
+    def run(self):
         menu = self.view.show_menu()
         if menu == '1':
             self.get_tournaments()
             self.get_players()
-            print(self.tournament_details)
-            for i in range(NUMBER_ROUNDS):
+            print(self.tournaments)
+            for rounds in range(NUMBER_ROUNDS):
                 self.start_round()
                 self.end_rounds_results()
-                print(self.rounds)
-                rounds_data_base = TinyDB('data_base_rounds.json')
-                rounds_table = rounds_data_base.table(f'rounds{i+1}')
-                rounds_table.insert(self.rounds.rounds_table())
-            self.players = self.rounds.sort_by_point(self.players)
-            print("classement des joueurs")
-            for i in range(NUMBER_PLAYERS):
-                print(f"-{i+1}- {self.players[i].player_table()}\n"
-                      f"avec un score de: {self.players[i].total_points}\n"
-                      )
+                self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
+                # print(self.rounds)
+                self.data_logging(rounds)
+            self.show_results()

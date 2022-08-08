@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query, where
+NUMBER_OF_ROUND = 4
 
 
 class Tournaments:
@@ -11,9 +11,12 @@ class Tournaments:
         self.tournaments_name = tournaments_name
         self.tournaments_venue = tournaments_venue
         self.tournaments_date = tournaments_date
+        self.tournaments_number = NUMBER_OF_ROUND
         self.time_control = time_control
         self.remarks_director = remarks_director
-        self.list_rounds_tournament = {}
+        self.list_players = []
+        self.list_rounds_tournament = []  # ********
+        self.results = []
 
     def __str__(self):
         """Used in print."""
@@ -21,7 +24,10 @@ class Tournaments:
                f"lieu de la tournois:{self.tournaments_venue}\n" \
                f"Date de la tournois:{self.tournaments_date}\n" \
                f"controle temps:{self.time_control}\n" \
-               f"remarque du directeur:{self.remarks_director}\n"
+               f"remarque du directeur:{self.remarks_director}\n" \
+               f"liste des joueurs{self.list_players}\n" \
+               f"list_rounds_tournament:{self.list_rounds_tournament}\n" \
+               f"resultat{self.results}"
 
     def __repr__(self):
         """Used in print."""
@@ -32,6 +38,9 @@ class Tournaments:
             'tournaments_name': self.tournaments_name,
             'tournaments_venue': self.tournaments_venue,
             'tournaments_date': self.tournaments_date,
-            'remarks_director': self.remarks_director
+            'remarks_director': self.remarks_director,
+            'list_players': self.list_players,
+            'list_rounds_tournament': self.list_rounds_tournament,
+            'results': self.results
         }
         return dict_tournaments

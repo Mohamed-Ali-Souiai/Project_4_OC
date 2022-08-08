@@ -1,7 +1,6 @@
 from models.match import Match
 
 START_SCORE = 0
-NUMBER_OF_ROUND = 4
 NUMBER_PLAYERS = 8
 HALF_NUMBER_OF_PLAYERS = 4
 
@@ -57,9 +56,9 @@ class Rounds:
         return list_players
 
     def first_rounds(self, list_players):
-        """paire  des joueurs  de la tours """
+        """retourne paire  des joueurs  de la tours """
         self.list_match = []
-        for i in range(len(list_players)):
+        for i in range(HALF_NUMBER_OF_PLAYERS):
             pair = [list_players[i], list_players[i+4]]
             list_players[i].opponent_player.append(list_players[i+4].player_name)
             list_players[i+4].opponent_player.append(list_players[i].player_name)
@@ -75,12 +74,17 @@ class Rounds:
         while len(copy_list_players) > 0:
             if copy_list_players[index].player_name not in copy_list_players[index+1].opponent_player:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
-            elif copy_list_players[index].player_name not in copy_list_players[index+2].opponent_player:
+            elif copy_list_players[index].player_name not in copy_list_players[index+2].opponent_player \
+                    and len(copy_list_players) > 1:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index+1)]
-            elif copy_list_players[index].player_name not in copy_list_players[index+3].opponent_player:
+            elif copy_list_players[index].player_name not in copy_list_players[index+3].opponent_player \
+                    and len(copy_list_players) > 2:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
-            else:
+            elif copy_list_players[index].player_name not in copy_list_players[index+4].opponent_player \
+                    and len(copy_list_players) > 3:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
+            else:
+                pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
             self.list_match.extend(pair)
         for j in range(NUMBER_PLAYERS):
             if j in [1, 3, 5, 7]:
