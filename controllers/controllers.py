@@ -133,6 +133,7 @@ class Controllers:
                   )"""
 
     def data_recovery(self, data):
+        """data assignment retrieve"""
         self.tournaments.tournaments_name = data[0]['tournaments_name']
         self.tournaments.tournaments_venue = data[0]['tournaments_venue']
         self.tournaments.tournaments_date = data[0]['tournaments_date']
@@ -145,6 +146,7 @@ class Controllers:
         print(self.tournaments)
 
     def continue_tournament(self):
+        """data recovery from database"""
         tournament_data_base = TinyDB('data_base_tournaments.json')
         tournaments = self.view.tournament_data(
             "veuillez entrer le nom du tournoi à continuer: "
@@ -175,7 +177,6 @@ class Controllers:
             print(self.tournaments)
             element = ''
             while self.tournaments.rounds_number > 0:
-                # for i in range(NUMBER_ROUNDS):
                 self.start_round()
                 self.end_rounds_results()
                 self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
@@ -184,5 +185,6 @@ class Controllers:
                 self.tournaments.rounds_number -= 1
             self.results()
             self.data_logging('results')
+            self.data_logging('rounds_number')
         elif menu == '2':
             self.continue_tournament()

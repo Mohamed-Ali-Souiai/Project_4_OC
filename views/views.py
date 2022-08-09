@@ -14,14 +14,9 @@ class Views:
         return data
 
     def show_results(self, tournaments_results):
+        print("classement des joueurs")
         for key in tournaments_results.keys():
             print(f'{key}:{tournaments_results[key]}')
-        """self.players = self.rounds.sort_by_point(self.players)
-        print("classement des joueurs")
-        for i in range(NUMBER_PLAYERS):
-            print(f"-{i + 1}- {self.players[i].player_table()}\n"
-                  f"avec un score de: {self.players[i].total_points}\n"
-                  )"""
 
     def show_menu(self):
 
