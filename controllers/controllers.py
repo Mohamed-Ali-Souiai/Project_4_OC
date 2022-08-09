@@ -1,6 +1,6 @@
 """Define the main controller."""
 
-from tinydb import TinyDB, queries
+from tinydb import TinyDB, Query
 from datetime import datetime
 
 from models.players import Players
@@ -117,18 +117,42 @@ class Controllers:
 
     def results(self):
         self.players = self.rounds.sort_by_point(self.players)
-        dict_ranking = {}
+        tournaments_results = {}
         ranking = ['first:', 'second:', 'third:', 'fourth:', 'fifth:', 'sixth:', 'seventh:', 'eighth:']
         for i in range(NUMBER_PLAYERS):
-            dict_ranking[ranking[i]] = self.players[i].player_table()
-        self.tournaments.results = dict_ranking
-        print("classement des joueurs")
-        print(self.tournaments.results)
+            tournaments_results[ranking[i]] = self.players[i].player_table()
+        self.tournaments.results = tournaments_results
+        # print("classement des joueurs")
+        # print(self.tournaments.results)
+        self.view.show_results(tournaments_results)
+
         """print("classement des joueurs")
         for i in range(NUMBER_PLAYERS):
             print(f"-{i + 1}- {self.players[i].player_table()}\n"
                   f"avec un score de: {self.players[i].total_points}\n"
                   )"""
+
+    def data_recovery(self, data):
+        self.tournaments.tournaments_name = data[0]['tournaments_name']
+        self.tournaments.tournaments_venue = data[0]['tournaments_venue']
+        self.tournaments.tournaments_date = data[0]['tournaments_date']
+        self.tournaments.time_control = data[0]['time_control']
+        self.tournaments.rounds_number = data[0]['rounds_number']
+        self.tournaments.remarks_director = data[0]['remarks_director']
+        self.tournaments.list_players = data[0]['list_players']
+        self.tournaments.list_rounds_tournament = data[0]['list_rounds_tournament']
+        self.tournaments.results = data[0]['results']
+        print(self.tournaments)
+
+    def continue_tournament(self):
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournaments = self.view.tournament_data(
+            "veuillez entrer le nom du tournoi à continuer: "
+        )
+        tournament_table = tournament_data_base.table('chess')  # f'{tournaments_name}'
+        tournament = Query()
+        data = tournament_table.search(tournament.tournaments_name == tournaments)
+        self.data_recovery(data)
 
     def data_logging(self, element=''):
         """data storage"""
@@ -150,11 +174,15 @@ class Controllers:
             self.get_players()
             print(self.tournaments)
             element = ''
-            for i in range(NUMBER_ROUNDS):
+            while self.tournaments.rounds_number > 0:
+                # for i in range(NUMBER_ROUNDS):
                 self.start_round()
                 self.end_rounds_results()
                 self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
                 self.data_logging(element)
                 element = 'list_rounds_tournament'
+                self.tournaments.rounds_number -= 1
             self.results()
             self.data_logging('results')
+        elif menu == '2':
+            self.continue_tournament()

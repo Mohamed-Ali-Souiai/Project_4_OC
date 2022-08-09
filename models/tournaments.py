@@ -11,7 +11,7 @@ class Tournaments:
         self.tournaments_name = tournaments_name
         self.tournaments_venue = tournaments_venue
         self.tournaments_date = tournaments_date
-        self.tournaments_number = NUMBER_OF_ROUND
+        self.rounds_number = NUMBER_OF_ROUND
         self.time_control = time_control
         self.remarks_director = remarks_director
         self.list_players = []
@@ -23,6 +23,7 @@ class Tournaments:
         return f"\nNom de la tournois:{self.tournaments_name}\n" \
                f"lieu de la tournois:{self.tournaments_venue}\n" \
                f"Date de la tournois:{self.tournaments_date}\n" \
+               f"resultat:{self.rounds_number}\n" \
                f"controle temps:{self.time_control}\n" \
                f"remarque du directeur:{self.remarks_director}\n" \
                f"liste des joueurs:{self.list_players}\n" \
@@ -38,6 +39,8 @@ class Tournaments:
             'tournaments_name': self.tournaments_name,
             'tournaments_venue': self.tournaments_venue,
             'tournaments_date': self.tournaments_date,
+            'rounds_number': self.rounds_number,
+            'time_control': self.time_control,
             'remarks_director': self.remarks_director,
             'list_players': self.list_players,
             'list_rounds_tournament': self.list_rounds_tournament,
