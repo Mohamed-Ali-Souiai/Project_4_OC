@@ -16,7 +16,7 @@ class Tournaments:
         self.remarks_director = remarks_director
         self.list_players = []
         self.list_rounds_tournament = []  # ********
-        self.results = []
+        self.results = {}
 
     def __str__(self):
         """Used in print."""
@@ -25,9 +25,9 @@ class Tournaments:
                f"Date de la tournois:{self.tournaments_date}\n" \
                f"controle temps:{self.time_control}\n" \
                f"remarque du directeur:{self.remarks_director}\n" \
-               f"liste des joueurs{self.list_players}\n" \
+               f"liste des joueurs:{self.list_players}\n" \
                f"list_rounds_tournament:{self.list_rounds_tournament}\n" \
-               f"resultat{self.results}"
+               f"resultat:{self.results}"
 
     def __repr__(self):
         """Used in print."""

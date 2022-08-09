@@ -1,12 +1,16 @@
-from models.players import Players
-from datetime import datetime
+"""Define the main controller."""
+
 from tinydb import TinyDB, queries
+from datetime import datetime
+
+from models.players import Players
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
 
 
 class Controllers:
+    """Main controller."""
 
     def __init__(self, tournaments, rounds, view):
         self.players = []
@@ -111,16 +115,24 @@ class Controllers:
             players.append(self.players[i].player_table())
         return self.rounds.rounds_results(players, score)
 
-    def show_results(self):
+    def results(self):
         self.players = self.rounds.sort_by_point(self.players)
+        dict_ranking = {}
+        ranking = ['first:', 'second:', 'third:', 'fourth:', 'fifth:', 'sixth:', 'seventh:', 'eighth:']
+        for i in range(NUMBER_PLAYERS):
+            dict_ranking[ranking[i]] = self.players[i].player_table()
+        self.tournaments.results = dict_ranking
         print("classement des joueurs")
+        print(self.tournaments.results)
+        """print("classement des joueurs")
         for i in range(NUMBER_PLAYERS):
             print(f"-{i + 1}- {self.players[i].player_table()}\n"
                   f"avec un score de: {self.players[i].total_points}\n"
-                  )
+                  )"""
 
-    def data_logging(self, rounds):
-        if rounds == 0:
+    def data_logging(self, element=''):
+        """data storage"""
+        if element == '':
             tournament_data_base = TinyDB('data_base_tournaments.json')
             tournament_table = tournament_data_base.table(f'{self.tournaments.tournaments_name}')
             tournament_table.insert(self.tournaments.tournaments_table())
@@ -128,18 +140,21 @@ class Controllers:
             tournament_data_base = TinyDB('data_base_tournaments.json')
             tournament_table = tournament_data_base.table(f'{self.tournaments.tournaments_name}')
             list_rounds = self.tournaments.tournaments_table()
-            tournament_table.update({'list_rounds_tournament': list_rounds['list_rounds_tournament']})
+            tournament_table.update({element: list_rounds[element]})
 
     def run(self):
+        """run the chess"""
         menu = self.view.show_menu()
         if menu == '1':
             self.get_tournaments()
             self.get_players()
             print(self.tournaments)
-            for rounds in range(NUMBER_ROUNDS):
+            element = ''
+            for i in range(NUMBER_ROUNDS):
                 self.start_round()
                 self.end_rounds_results()
                 self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
-                # print(self.rounds)
-                self.data_logging(rounds)
-            self.show_results()
+                self.data_logging(element)
+                element = 'list_rounds_tournament'
+            self.results()
+            self.data_logging('results')
