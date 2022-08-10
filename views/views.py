@@ -22,7 +22,7 @@ class Views:
 
         global selection
         menu = {'1': "Commencer un tournoi",
-                '2': "modifier le classement des joueurs",
+                '2': "continuer un trournoi",
                 '3': "afficher les résultats",
                 '4': "quitter"
                 }

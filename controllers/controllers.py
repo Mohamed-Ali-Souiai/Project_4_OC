@@ -145,23 +145,23 @@ class Controllers:
         self.tournaments.list_rounds_tournament = data[0]['list_rounds_tournament']
         self.tournaments.results = data[0]['results']
         print(self.tournaments)
-        for key in self.tournaments.results.keys():
-            player_name = self.tournaments.results[key]['player_name']
-            player_first_name = self.tournaments.results[key]['player_first_name']
-            player_date_of_birth = self.tournaments.results[key]['player_date_of_birth']
-            player_sex = self.tournaments.results[key]['player_sex']
-            player_ranking = self.tournaments.results[key]['player_ranking']
-            total_points = self.tournaments.results[key]['total_points']
-            opponent_player = self.tournaments.results[key]['opponent_player']
-            player = Players(
-                player_name, player_first_name,
-                player_date_of_birth, player_sex,
-                player_ranking, total_points,
-                opponent_player
-            )
-            self.players.append(player)
+        if len(self.players) == 0:
+            for key in self.tournaments.results.keys():
+                player_name = self.tournaments.results[key]['player_name']
+                player_first_name = self.tournaments.results[key]['player_first_name']
+                player_date_of_birth = self.tournaments.results[key]['player_date_of_birth']
+                player_sex = self.tournaments.results[key]['player_sex']
+                player_ranking = self.tournaments.results[key]['player_ranking']
+                total_points = self.tournaments.results[key]['total_points']
+                opponent_player = self.tournaments.results[key]['opponent_player']
+                player = Players(
+                    player_name, player_first_name,
+                    player_date_of_birth, player_sex,
+                    player_ranking, total_points,
+                    opponent_player
+                )
+                self.players.append(player)
         print(self.players)
-        self.start_rounds()
 
     def continue_tournament(self):
         """data recovery from database"""
@@ -203,27 +203,22 @@ class Controllers:
 
     def run(self):
         """run the chess"""
-        menu = self.view.show_menu()
-        if menu == '1':
-            self.get_tournaments()
-            self.get_players()
-            print(self.tournaments)
-            self.start_rounds()
-            """element = ''
-            while self.tournaments.rounds_number > 0:
-                self.generate_player_pairs()
-                self.end_rounds_results()
-                self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
-                self.data_logging(element)
-                element = 'list_rounds_tournament'
-                self.tournaments.rounds_number -= 1
-                choice = self.view.tournament_data(
-                    "voulez vous continuer le tournoi: (y/n) "
-                )
-                if choice == 'n':
-                    break"""
-            self.results()
-            self.data_logging('results')
-            self.data_logging('rounds_number')
-        elif menu == '2':
-            self.continue_tournament()
+        # boolean = True
+        while True:
+            menu = self.view.show_menu()
+            if menu == '1':
+                self.get_tournaments()
+                self.get_players()
+                print(self.tournaments)
+                self.start_rounds()
+                self.results()
+                self.data_logging('results')
+                self.data_logging('rounds_number')
+            elif menu == '2':
+                self.continue_tournament()
+                self.start_rounds()
+                self.results()
+                self.data_logging('results')
+                self.data_logging('rounds_number')
+            if menu == 4:
+                break
