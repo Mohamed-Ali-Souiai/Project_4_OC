@@ -122,15 +122,7 @@ class Controllers:
         for i in range(NUMBER_PLAYERS):
             tournaments_results[ranking[i]] = self.players[i].player_table()
         self.tournaments.results = tournaments_results
-        # print("classement des joueurs")
-        # print(self.tournaments.results)
         self.view.show_results(tournaments_results)
-
-        """print("classement des joueurs")
-        for i in range(NUMBER_PLAYERS):
-            print(f"-{i + 1}- {self.players[i].player_table()}\n"
-                  f"avec un score de: {self.players[i].total_points}\n"
-                  )"""
 
     def data_recovery(self, data):
         """data assignment retrieve"""
