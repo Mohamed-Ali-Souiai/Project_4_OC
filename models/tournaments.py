@@ -23,7 +23,7 @@ class Tournaments:
         return f"\nNom de la tournois:{self.tournaments_name}\n" \
                f"lieu de la tournois:{self.tournaments_venue}\n" \
                f"Date de la tournois:{self.tournaments_date}\n" \
-               f"resultat:{self.rounds_number}\n" \
+               f"nombre des tours:{self.rounds_number}\n" \
                f"controle temps:{self.time_control}\n" \
                f"remarque du directeur:{self.remarks_director}\n" \
                f"liste des joueurs:{self.list_players}\n" \

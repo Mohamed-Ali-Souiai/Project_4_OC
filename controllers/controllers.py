@@ -84,7 +84,7 @@ class Controllers:
             self.players.append(player)
             self.tournaments.list_players.append(player.player_table())
 
-    def start_round(self):
+    def generate_player_pairs(self):
         """retourne liste des joueur ranger par ordre des matchs dans un tours """
         while True:
             self.rounds.rounds_name = self.view.tournament_data(
@@ -136,6 +136,23 @@ class Controllers:
         self.tournaments.list_rounds_tournament = data[0]['list_rounds_tournament']
         self.tournaments.results = data[0]['results']
         print(self.tournaments)
+        for key in self.tournaments.results.keys():
+            player_name = self.tournaments.results[key]['player_name']
+            player_first_name = self.tournaments.results[key]['player_first_name']
+            player_date_of_birth = self.tournaments.results[key]['player_date_of_birth']
+            player_sex = self.tournaments.results[key]['player_sex']
+            player_ranking = self.tournaments.results[key]['player_ranking']
+            total_points = self.tournaments.results[key]['total_points']
+            opponent_player = self.tournaments.results[key]['opponent_player']
+            player = Players(
+                player_name, player_first_name,
+                player_date_of_birth, player_sex,
+                player_ranking, total_points,
+                opponent_player
+            )
+            self.players.append(player)
+        print(self.players)
+        self.start_rounds()
 
     def continue_tournament(self):
         """data recovery from database"""
@@ -160,6 +177,21 @@ class Controllers:
             list_rounds = self.tournaments.tournaments_table()
             tournament_table.update({element: list_rounds[element]})
 
+    def start_rounds(self):
+        element = ''
+        while self.tournaments.rounds_number > 0:
+            self.generate_player_pairs()
+            self.end_rounds_results()
+            self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
+            self.data_logging(element)
+            element = 'list_rounds_tournament'
+            self.tournaments.rounds_number -= 1
+            choice = self.view.tournament_data(
+                "voulez vous continuer le tournoi: (y/n) "
+            )
+            if choice == 'n':
+                break
+
     def run(self):
         """run the chess"""
         menu = self.view.show_menu()
@@ -167,9 +199,10 @@ class Controllers:
             self.get_tournaments()
             self.get_players()
             print(self.tournaments)
-            element = ''
+            self.start_rounds()
+            """element = ''
             while self.tournaments.rounds_number > 0:
-                self.start_round()
+                self.generate_player_pairs()
                 self.end_rounds_results()
                 self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
                 self.data_logging(element)
@@ -179,7 +212,7 @@ class Controllers:
                     "voulez vous continuer le tournoi: (y/n) "
                 )
                 if choice == 'n':
-                    break
+                    break"""
             self.results()
             self.data_logging('results')
             self.data_logging('rounds_number')

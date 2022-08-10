@@ -2,15 +2,16 @@
 class Players:
     def __init__(self, player_name, player_first_name,
                  player_date_of_birth, player_sex,
-                 player_ranking, total_points=0
+                 player_ranking, total_points=0,
+                 opponent_player=[]
                  ):
         self.player_name = player_name
         self.player_first_name = player_first_name
         self.player_date_of_birth = player_date_of_birth
         self.player_sex = player_sex
         self.player_ranking = player_ranking
-        self.opponent_player = []
         self.total_points = total_points
+        self.opponent_player = opponent_player
 
     def __str__(self):
         """Used in print."""
@@ -26,11 +27,12 @@ class Players:
 
     def player_table(self):
         dict_player = {
-            'name': self.player_name,
-            'first_name': self.player_first_name,
+            'player_name': self.player_name,
+            'player_first_name': self.player_first_name,
             'player_date_of_birth': self.player_date_of_birth,
             'player_sex': self.player_sex,
             'player_ranking': self.player_ranking,
-            'total_points': self.total_points
+            'total_points': self.total_points,
+            'opponent_player': self.opponent_player
         }
         return dict_player
