@@ -175,6 +175,11 @@ class Controllers:
                 self.data_logging(element)
                 element = 'list_rounds_tournament'
                 self.tournaments.rounds_number -= 1
+                choice = self.view.tournament_data(
+                    "voulez vous continuer le tournoi: (y/n) "
+                )
+                if choice == 'n':
+                    break
             self.results()
             self.data_logging('results')
             self.data_logging('rounds_number')
