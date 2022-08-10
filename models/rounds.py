@@ -80,6 +80,8 @@ class Rounds:
                 else:
                     list_players[j], list_players[j+1] = list_players[j+1], list_players[j]
                     break
+            list_players[i].opponent_player.append(list_players[i + 1].player_name)
+            list_players[i + 1].opponent_player.append(list_players[i].player_name)
         self.list_match = list_players
         """index = 0
         copy_list_players = list_players.copy()
@@ -98,11 +100,6 @@ class Rounds:
             else:
                 pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
             self.list_match.extend(pair)"""
-        for j in range(NUMBER_PLAYERS):
-            if j in [1, 3, 5, 7]:
-                continue
-            self.list_match[j].opponent_player.append(self.list_match[j+1].player_name)
-            self.list_match[j+1].opponent_player.append(self.list_match[j].player_name)
         return self.list_match
 
     def rounds_results(self, list_players, score):

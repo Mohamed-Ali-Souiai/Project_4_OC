@@ -28,6 +28,19 @@ class Controllers:
             return None
         return date
 
+    def control_score(self, player):
+        while True:
+            try:
+                score = float(
+                    self.view.tournament_data(
+                        f"veuillez entrer le score du {self.players[player].player_name}: "
+                    )
+                )
+                break
+            except ValueError:
+                print('valeur non valide')
+        return score
+
     def get_tournaments(self):
         """retourne les details de la tournois"""
         self.tournaments.tournaments_name = self.view.tournament_data(
@@ -106,11 +119,7 @@ class Controllers:
         players = []
         self.rounds.date_end_time = datetime.today().strftime('%d-%m-%Y %H:%M')
         for i in range(NUMBER_PLAYERS):
-            score.append(float(
-                    self.view.tournament_data(
-                        f"veuillez entrer le score du {self.players[i].player_name}: "
-                    )
-                ))
+            score.append(self.control_score(i))
             self.players[i].total_points += score[i]
             players.append(self.players[i].player_table())
         return self.rounds.rounds_results(players, score)
