@@ -10,7 +10,6 @@ NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
 
 
-
 class Controllers:
     """Main controller."""
 

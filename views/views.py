@@ -1,7 +1,6 @@
 """Base view."""
 
 
-
 class Views:
     def __init__(self):
         pass
@@ -28,6 +27,9 @@ class Views:
                   f"{player['date_of_birth']:20} |{player['sex']:20}|"
                   f"{player['ranking']:<20}|")
             counter += 1
+
+    def sow_tournament(self):
+        pass
 
     def show_menu(self, show=''):
 
