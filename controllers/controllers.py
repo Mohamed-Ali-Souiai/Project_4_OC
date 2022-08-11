@@ -59,6 +59,7 @@ class Controllers:
                 "veuillez entrer la remarque  du directeur: "
             )
         )
+        print(self.tournaments)
 
     def get_players(self):
         """retourne la liste des jouers"""
@@ -128,10 +129,12 @@ class Controllers:
                     opponent
                 )
                 self.players.append(player_information)
+                self.tournaments.list_players.append(player_information.player_table())
                 counter += 1
                 if counter == 9:
                     break
         print(self.players)
+        print(self.tournaments)
 
     def generate_player_pairs(self):
         """retourne liste des joueur ranger par ordre des matchs dans un tours """
@@ -243,12 +246,13 @@ class Controllers:
         while True:
             menu = self.view.show_menu('principal')
             if menu == '1':
+                self.get_tournaments()
                 sub_menu = self.view.show_menu()
                 if sub_menu == '1':
                     data = self.import_player()
                 elif sub_menu == '2':
                     self.get_players()
-                self.get_tournaments()
+
                 print(self.tournaments)
                 self.start_rounds()
                 self.results()
