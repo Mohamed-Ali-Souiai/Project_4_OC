@@ -1,7 +1,6 @@
 NUMBER_OF_ROUND = 4
 
 
-
 class Tournaments:
 
     def __init__(self, tournaments_name='',

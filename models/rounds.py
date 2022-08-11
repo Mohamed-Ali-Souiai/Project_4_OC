@@ -1,6 +1,5 @@
 from models.match import Match
 
-
 START_SCORE = 0
 NUMBER_PLAYERS = 8
 HALF_NUMBER_OF_PLAYERS = 4
