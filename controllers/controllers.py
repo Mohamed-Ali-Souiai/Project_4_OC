@@ -137,7 +137,6 @@ class Controllers:
                 counter += 1
                 if counter == 9:
                     break
-
         print(self.players)
 
     def generate_player_pairs(self):
