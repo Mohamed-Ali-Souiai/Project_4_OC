@@ -3,7 +3,6 @@ from controllers.controllers import Controllers
 from models.tournaments import Tournaments
 from models.rounds import Rounds
 
-
 def main():
     views = Views()
     rounds = Rounds()

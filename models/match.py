@@ -1,6 +1,5 @@
 from random import choice
 
-
 class Match:
 
     def draw(self):

@@ -1,6 +1,5 @@
 """Define the main controller."""
 
-
 from tinydb import TinyDB, Query
 from datetime import datetime
 
