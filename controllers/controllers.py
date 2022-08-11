@@ -107,14 +107,15 @@ class Controllers:
         table = 'players'
         players_table = players_data_base.table(table)
         print(len(players_table))
-        counter = 1
+        self.view.show_player(players_table)
+        """counter = 1
         for player in players_table:
             if counter == 1:
                 print(f"{' ':3}|{'name':20}|{'first_name':20}|{'date_of_birth':20} |{'sex':20}|{'ranking':20}|\n")
             print(f"{counter:<3}|{player['name']:20}|{player['first_name']:20}|"
                   f"{player['date_of_birth']:20} |{player['sex']:20}|"
                   f"{player['ranking']:<20}|")
-            counter += 1
+            counter += 1"""
         self.deserialized(players_table)
 
     def deserialized(self, table):
