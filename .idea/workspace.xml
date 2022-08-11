@@ -31,13 +31,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mohamed ali/Downloads/json-formatter-1.4.zip&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.file-colors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/mohamed ali/Downloads/json-formatter-1.4.zip",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.file-colors"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mohamed ali\Desktop\git\Project_4_OC" />
@@ -150,34 +151,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1657874147513</updated>
-    </task>
-    <task id="LOCAL-00010" summary="teste">
-      <created>1657926168489</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1657926168489</updated>
-    </task>
-    <task id="LOCAL-00011" summary="teste">
-      <created>1657926898000</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1657926898000</updated>
-    </task>
-    <task id="LOCAL-00012" summary="teste">
-      <created>1657927148166</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1657927148166</updated>
-    </task>
-    <task id="LOCAL-00013" summary="teste">
-      <created>1657954435778</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1657954435778</updated>
     </task>
     <task id="LOCAL-00014" summary="teste">
       <created>1657961867312</created>
@@ -494,7 +467,35 @@
       <option name="project" value="LOCAL" />
       <updated>1660126431840</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="advancement project 4">
+      <created>1660230747608</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1660230747609</updated>
+    </task>
+    <task id="LOCAL-00060" summary="advancement project 4">
+      <created>1660230773498</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1660230773498</updated>
+    </task>
+    <task id="LOCAL-00061" summary="advancement project 4">
+      <created>1660230920407</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1660230920407</updated>
+    </task>
+    <task id="LOCAL-00062" summary="advancement project 4">
+      <created>1660230935650</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1660230935650</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
