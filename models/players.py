@@ -37,3 +37,5 @@ class Player:
             'opponent': self.opponent
         }
         return serialized
+
+
