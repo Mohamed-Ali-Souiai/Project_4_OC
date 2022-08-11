@@ -108,7 +108,6 @@ class Controllers:
         players_table = players_data_base.table(table)
         print(len(players_table))
         self.view.show_player(players_table)
-
         self.deserialized(players_table)
 
     def deserialized(self, table):
