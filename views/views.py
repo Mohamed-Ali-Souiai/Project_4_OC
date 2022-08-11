@@ -18,34 +18,46 @@ class Views:
         for key in tournaments_results.keys():
             print(f'{key}:{tournaments_results[key]}')
 
-    def show_menu(self):
-
-        global selection
-        menu = {'1': "Commencer un tournoi",
-                '2': "continuer un trournoi",
-                '3': "afficher les résultats",
-                '4': "quitter"
+    def show_player(self):
+        menu = {'1': "Afficher les joueurs enregistrés",
+                '2': "Entrer des joueurs",
+                '3': "Importer des joueurs",
+                '4': "Afficher les joueurs du tournoi"
                 }
-        select = False
-        while not select:
-            options = menu.keys()
-            options = sorted(options)
-            for entry in options:
-                print(entry, menu[entry])
-            selection = input("Veuillez entrer la sélection: ")
-            if selection == '1':
-                print("Commencer un tournoi")
-                select = True
-            elif selection == '2':
-                print("continuer une tournois")
-                select = True
-            elif selection == '3':
-                print("afficher les résultats")
-                select = True
-            elif selection == '4':
-                print("quitter")
-                select = True
+        choice = ['1', '2', '3', '4']
+        while True:
+            print('****************menu****************')
+            for key in menu.keys():
+                print(f"{key}: {menu[key]}")
+            select = input("Veuillez entrer la sélection:")
+            if select in choice:
+                print(f"votre chois est : {menu[select]}")
+                return select
             else:
-                print("Option sélectionnée inconnue !")
-        if selection in ['1', '2', '3', '4']:
-            return selection
+                print('chois invalide')
+
+    def show_menu(self, show=''):
+
+        if show == 'principal':
+            menu = {'1': "Commencer un tournoi",
+                    '2': "continuer un trournoi",
+                    '3': "afficher les résultats",
+                    }
+            choice = ['1', '2', '3']
+        else:
+            menu = {'1': "Afficher les joueurs enregistrés",
+                    '2': "Entrer des joueurs",
+                    '3': "Importer des joueurs",
+                    '4': "Afficher les joueurs du tournoi"
+                    }
+            choice = ['1', '2', '3', '4']
+        while True:
+            print('****************menu****************')
+            for key in menu.keys():
+                print(f"{key}: {menu[key]}")
+            select = input("Veuillez entrer la sélection:")
+            if select in choice:
+                print(f"votre chois est : {menu[select]}")
+                return select
+            else:
+                print("chois invalide")

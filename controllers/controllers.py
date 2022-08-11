@@ -3,7 +3,7 @@
 from tinydb import TinyDB, Query
 from datetime import datetime
 
-from models.players import Players
+from models.players import Player
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
@@ -89,13 +89,54 @@ class Controllers:
                     f"veuillez entrer le classement du joueur n°{i+1}: "
                 )
             )
-            player = Players(
+            player = Player(
                 player_name, player_first_name,
                 player_date_of_birth, player_sex,
                 player_ranking
             )
             self.players.append(player)
             self.tournaments.list_players.append(player.player_table())
+            players_data_base = TinyDB('data_base_tournaments.json')
+            players_table = players_data_base.table('players')
+            players_table.insert(player.player_table())
+
+    def import_player(self):
+        players_data_base = TinyDB('data_base_tournaments.json')
+        table = 'players'
+        players_table = players_data_base.table(table)
+        print(len(players_table))
+        counter = 1
+        for player in players_table:
+            if counter == 1:
+                print(f"{' ':3}|{'name':20}|{'first_name':20}|{'date_of_birth':20} |{'sex':20}|{'ranking':20}|\n")
+            print(f"{counter:<3}|{player['name']:20}|{player['first_name']:20}|"
+                  f"{player['date_of_birth']:20} |{player['sex']:20}|"
+                  f"{player['ranking']:<20}|")
+            counter += 1
+        self.deserialized(players_table)
+
+    def deserialized(self, table):
+        if len(self.players) == 0:
+            counter = 1
+            for player in table:
+                name = player['name']
+                first_name = player['first_name']
+                date_of_birth = player['date_of_birth']
+                sex = player['sex']
+                ranking = player['ranking']
+                total_points = player['total_points']
+                opponent = player['opponent']
+                player_information = Player(
+                    name, first_name,
+                    date_of_birth, sex,
+                    ranking, total_points,
+                    opponent
+                )
+                self.players.append(player_information)
+                counter += 1
+                if counter == 9:
+                    break
+        print(self.players)
 
     def generate_player_pairs(self):
         """retourne liste des joueur ranger par ordre des matchs dans un tours """
@@ -147,18 +188,18 @@ class Controllers:
         print(self.tournaments)
         if len(self.players) == 0:
             for key in self.tournaments.results.keys():
-                player_name = self.tournaments.results[key]['player_name']
-                player_first_name = self.tournaments.results[key]['player_first_name']
-                player_date_of_birth = self.tournaments.results[key]['player_date_of_birth']
-                player_sex = self.tournaments.results[key]['player_sex']
-                player_ranking = self.tournaments.results[key]['player_ranking']
+                name = self.tournaments.results[key]['name']
+                first_name = self.tournaments.results[key]['first_name']
+                date_of_birth = self.tournaments.results[key]['date_of_birth']
+                sex = self.tournaments.results[key]['sex']
+                ranking = self.tournaments.results[key]['ranking']
                 total_points = self.tournaments.results[key]['total_points']
-                opponent_player = self.tournaments.results[key]['opponent_player']
-                player = Players(
-                    player_name, player_first_name,
-                    player_date_of_birth, player_sex,
-                    player_ranking, total_points,
-                    opponent_player
+                opponent = self.tournaments.results[key]['opponent']
+                player = Player(
+                    name, first_name,
+                    date_of_birth, sex,
+                    ranking, total_points,
+                    opponent
                 )
                 self.players.append(player)
         print(self.players)
@@ -169,7 +210,7 @@ class Controllers:
         tournaments = self.view.tournament_data(
             "veuillez entrer le nom du tournoi à continuer: "
         )
-        tournament_table = tournament_data_base.table('chess')  # f'{tournaments_name}'
+        tournament_table = tournament_data_base.table(tournaments)  # f'{tournaments_name}'
         tournament = Query()
         data = tournament_table.search(tournament.tournaments_name == tournaments)
         self.data_recovery(data)
@@ -205,10 +246,14 @@ class Controllers:
         """run the chess"""
         # boolean = True
         while True:
-            menu = self.view.show_menu()
+            menu = self.view.show_menu('principal')
             if menu == '1':
+                sub_menu = self.view.show_menu()
+                if sub_menu == '1':
+                    data = self.import_player()
+                elif sub_menu == '2':
+                    self.get_players()
                 self.get_tournaments()
-                self.get_players()
                 print(self.tournaments)
                 self.start_rounds()
                 self.results()
