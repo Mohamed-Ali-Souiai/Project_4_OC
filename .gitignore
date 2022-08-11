@@ -1,4 +1,5 @@
 env/
+flake-report/
 data_base_player.json/
 data_base_rounds.json/
 data_base_tournaments.json/
