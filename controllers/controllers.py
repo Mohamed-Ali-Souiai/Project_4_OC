@@ -9,6 +9,7 @@ NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
 
 
+
 class Controllers:
     """Main controller."""
 
@@ -136,6 +137,7 @@ class Controllers:
                 counter += 1
                 if counter == 9:
                     break
+
         print(self.players)
 
     def generate_player_pairs(self):
