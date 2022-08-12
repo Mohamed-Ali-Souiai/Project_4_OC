@@ -23,10 +23,10 @@ class Views:
         counter = 1
         for player in players:
             if counter == 1:
-                print(f"{' ':3}|{'name':20}|{'first_name':20}|{'date_of_birth':20} |{'sex':20}|{'ranking':20}|\n")
-            print(f"{counter:<3}|{player['name']:20}|{player['first_name']:20}|"
-                  f"{player['date_of_birth']:20} |{player['sex']:20}|"
-                  f"{player['ranking']:<20}|")
+                print(f"{' ':3}|{'name':^15}|{'first_name':^15}|{'date_of_birth':^15} |{'sex':^15}|{'ranking':^15}|")
+            print(f"{counter:<3}|{player['name']:15}|{player['first_name']:15}|"
+                  f"{player['date_of_birth']:15} |{player['sex']:15}|"
+                  f"{player['ranking']:<15}|")
             counter += 1
 
     def sow_tournament(self):
