@@ -1,4 +1,5 @@
 """Base view."""
+from models.players import Player
 
 
 class Views:
@@ -18,9 +19,9 @@ class Views:
         for key in tournaments_results.keys():
             print(f'{key}:{tournaments_results[key]}')
 
-    def show_player(self, players_table):
+    def show_player(self, players):
         counter = 1
-        for player in players_table:
+        for player in players:
             if counter == 1:
                 print(f"{' ':3}|{'name':20}|{'first_name':20}|{'date_of_birth':20} |{'sex':20}|{'ranking':20}|\n")
             print(f"{counter:<3}|{player['name']:20}|{player['first_name']:20}|"
@@ -37,8 +38,9 @@ class Views:
             menu = {'1': "Commencer un tournoi",
                     '2': "continuer un trournoi",
                     '3': "afficher les résultats",
+                    '4': "Afficher les joueurs du tournoi"
                     }
-            choice = ['1', '2', '3']
+            choice = ['1', '2', '3', '4']
         else:
             menu = {'1': "Afficher les joueurs enregistrés",
                     '2': "Entrer des joueurs",

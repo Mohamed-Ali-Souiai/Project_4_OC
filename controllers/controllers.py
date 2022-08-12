@@ -1,8 +1,9 @@
 """Define the main controller."""
 
-
+# from operator import attrgetter
 from tinydb import TinyDB, Query
 from datetime import datetime
+
 
 from models.players import Player
 
@@ -68,27 +69,27 @@ class Controllers:
             # while len(self.players) < 9:
             print()
             player_name = self.view.tournament_data(
-                f"veuillez entrer le nom du joueur n°{i+1}: "
+                f"veuillez entrer le nom du joueur : "
             )
             player_first_name = self.view.tournament_data(
-                f"veuillez entrer le prénom du joueur n°{i+1}: "
+                f"veuillez entrer le prénom du joueur : "
             )
             while condition:
                 player_date_of_birth = self.view.tournament_data(
-                    f"veuillez entrer la date de naissance du joueur n°{i+1}: "
+                    f"veuillez entrer la date de naissance du joueur : "
                 )
                 if self.control_date(player_date_of_birth):
                     break
 
             while condition:
                 player_sex = self.view.tournament_data(
-                    f"veuillez entrer le sexe du joueur n°{i+1}: "
+                    f"veuillez entrer le sexe du joueur : "
                 )
                 if player_sex in ['h', 'f']:
                     break
             player_ranking = int(
                 self.view.tournament_data(
-                    f"veuillez entrer le classement du joueur n°{i+1}: "
+                    f"veuillez entrer le classement du joueur: "
                 )
             )
             player = Player(
@@ -132,8 +133,10 @@ class Controllers:
                 counter += 1
                 if counter == 9:
                     break
-        print(self.players)
-        print(self.tournaments)
+        print('trie alphabetique')
+        sort_players = sorted(self.players, key=lambda x: x.name)
+        # self.players.sort(key=attrgetter('name'))
+        self.view.show_player(sort_players)
 
     def generate_player_pairs(self):
         """retourne liste des joueur ranger par ordre des matchs dans un tours """
@@ -208,9 +211,9 @@ class Controllers:
             "veuillez entrer le nom du tournoi à continuer: "
         )
         tournament_table = tournament_data_base.table(tournaments)  # f'{tournaments_name}'
-        tournament = Query()
-        data = tournament_table.search(tournament.tournaments_name == tournaments)
-        self.data_recovery(data)
+        """tournament = Query()
+        data = tournament_table.search(tournament.tournaments_name == tournaments)"""
+        self.data_recovery(tournament_table)
 
     def data_logging(self, element=''):
         """data storage"""
@@ -245,13 +248,13 @@ class Controllers:
         while True:
             menu = self.view.show_menu('principal')
             if menu == '1':
-                self.get_tournaments()
+
                 sub_menu = self.view.show_menu()
                 if sub_menu == '1':
-                    data = self.import_player()
+                    self.import_player()
                 elif sub_menu == '2':
                     self.get_players()
-
+                self.get_tournaments()
                 print(self.tournaments)
                 self.start_rounds()
                 self.results()

@@ -34,6 +34,9 @@ class Tournaments:
         """Used in print."""
         return str(self)
 
+    def __getitem__(self, item):
+        return self.__dict__[item]
+
     def tournaments_table(self):
         dict_tournaments = {
             'tournaments_name': self.tournaments_name,

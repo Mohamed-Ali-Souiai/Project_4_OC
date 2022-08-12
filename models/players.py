@@ -15,15 +15,18 @@ class Player:
 
     def __str__(self):
         """Used in print."""
-        return f"\nNom de famille:{self.name}\n" \
-               f"Prénom:{self.first_name}\n" \
-               f"Date de naissance:{self.date_of_birth}\n" \
-               f"Sexe:{self.sex}\n" \
-               f"Classement:{self.ranking}\n"
+        return f"\nNom de famille: {self.name}\n" \
+               f"Prénom: {self.first_name}\n" \
+               f"Date de naissance: {self.date_of_birth}\n" \
+               f"Sexe: {self.sex}\n" \
+               f"Classement: {self.ranking}\n"
 
     def __repr__(self):
         """Used in print."""
         return str(self)
+
+    def __getitem__(self, item):
+        return self.__dict__[item]
 
     def player_table(self):
         serialized = {

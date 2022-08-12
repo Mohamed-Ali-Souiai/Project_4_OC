@@ -25,6 +25,9 @@ class Rounds:
         """Used in print."""
         return str(self)
 
+    def __getitem__(self, item):
+        return self.__dict__[item]
+
     def rounds_table(self):
         """serialize the object"""
         dict_rounds = {
