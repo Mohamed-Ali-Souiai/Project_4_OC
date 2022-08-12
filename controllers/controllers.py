@@ -1,10 +1,8 @@
 """Define the main controller."""
 
-# from operator import attrgetter
+from operator import attrgetter
 from tinydb import TinyDB, Query
 from datetime import datetime
-
-
 from models.players import Player
 
 NUMBER_PLAYERS = 8
@@ -134,7 +132,8 @@ class Controllers:
                 if counter == 9:
                     break
         print('trie alphabetique')
-        sort_players = sorted(self.players, key=lambda x: x.name)
+        sort_players = sorted(self.players, key=attrgetter('name'), reverse=False)
+        # sort_players = sorted(self.players, key=lambda x: x.name)
         # self.players.sort(key=attrgetter('name'))
         self.view.show_player(sort_players)
 
