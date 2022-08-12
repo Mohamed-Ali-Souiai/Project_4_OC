@@ -1,5 +1,7 @@
+#!C:\Users\mohamed ali\Desktop\git\Project_4_OC\env python
+# -*- coding: utf-8 -*-
+
 """Base view."""
-from models.players import Player
 
 
 class Views:
@@ -35,21 +37,27 @@ class Views:
     def show_menu(self, show=''):
 
         if show == 'principal':
-            menu = {'1': "Commencer un tournoi",
-                    '2': "continuer un trournoi",
-                    '3': "afficher les résultats",
-                    '4': "Afficher les joueurs du tournoi"
-                    }
-            choice = ['1', '2', '3', '4']
+            menu = {
+                '1': "Commencer un tournoi",
+                '2': "continuer un trournoi",
+                '3': "afficher les résultats",
+                '4': "sauvegader les donnes du tournoi",
+                '5': "Liste de tous les joueurs du tournoi ",
+                '6': "Liste de tous les joueurs dans la base de donnee ",
+                '7': "Liste de tous les tournois",
+                '8': "Liste de tous les tours du tournoi",
+                '9': "Liste de tous les matchs du tournoi",
+                '0': "quitter"
+            }
+            choice = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         else:
-            menu = {'1': "Afficher les joueurs enregistrés",
-                    '2': "Entrer des joueurs",
-                    '3': "Importer des joueurs",
-                    '4': "Afficher les joueurs du tournoi"
-                    }
-            choice = ['1', '2', '3', '4']
+            menu = {
+                '1': "Importer des joueurs",
+                '2': "Entrer des joueurs",
+            }
+            choice = ['1', '2']
         while True:
-            print('****************menu****************')
+            print('*************** menu ***************')
             for key in menu.keys():
                 print(f"{key}: {menu[key]}")
             select = input("Veuillez entrer la sélection:")

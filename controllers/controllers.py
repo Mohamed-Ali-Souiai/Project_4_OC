@@ -246,7 +246,7 @@ class Controllers:
         # boolean = True
         while True:
             menu = self.view.show_menu('principal')
-            if menu == '1':
+            if menu == '1':  # "Commencer un tournoi"
 
                 sub_menu = self.view.show_menu()
                 if sub_menu == '1':
@@ -257,13 +257,60 @@ class Controllers:
                 print(self.tournaments)
                 self.start_rounds()
                 self.results()
-                self.data_logging('results')
-                self.data_logging('rounds_number')
-            elif menu == '2':
+                choice = self.view.tournament_data(
+                    "voulez-vous sauvegarder les donnees du tournoi (y/n):  "
+                )
+                self.tournaments.remarks_director.append(
+                    self.view.tournament_data(
+                        "veuillez entrer la remarque  du directeur: "
+                    )
+                )
+                if choice == 'y':
+                    self.data_logging('results')
+                    self.data_logging('rounds_number')
+
+            elif menu == '2':  # "continuer un trournoi"
                 self.continue_tournament()
                 self.start_rounds()
                 self.results()
                 self.data_logging('results')
                 self.data_logging('rounds_number')
-            if menu == 4:
+            elif menu == '3':  # "afficher les résultats"
+                pass
+            elif menu == '4':  # "sauvegader les donnes du tournoi"
+                pass
+            elif menu == '5':  # "Liste de tous les joueurs du tournoi "
+                pass
+            elif menu == '6':  # "Liste de tous les joueurs dans la base de donnee "
+                pass
+            elif menu == '7':  # "Liste de tous les tournois"
+                pass
+            elif menu == '8':  # "Liste de tous les tours du tournoi"
+                pass
+            elif menu == '9':  # "Liste de tous les matchs du tournoi"
+                pass
+            else:
                 break
+
+            """match menu:
+                case '1':
+                    pass
+                case '2':
+                    pass
+                case '3':
+                    pass
+                case '4':
+                    pass
+                case '5':
+                    pass
+                case '6':
+                    pass
+                case '7':
+                    pass
+                case '8':
+                    pass
+                case '9':
+                    pass
+                case other:
+                    print("_")"""
+
