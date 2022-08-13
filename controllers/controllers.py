@@ -4,6 +4,7 @@ from operator import attrgetter
 from tinydb import TinyDB, Query
 from datetime import datetime
 from models.players import Player
+from pprint import pprint
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
@@ -58,7 +59,6 @@ class Controllers:
                 "veuillez entrer la remarque  du directeur: "
             )
         )
-        print(self.tournaments)
 
     def get_players(self):
         """retourne la liste des jouers"""
@@ -105,14 +105,15 @@ class Controllers:
         players_data_base = TinyDB('data_base_tournaments.json')
         table = 'players'
         players_table = players_data_base.table(table)
-        print(len(players_table))
-        self.view.show_player(players_table)
-        self.deserialized(players_table)
+        """players = []
+        for player in players_table:
+            players.append(player)"""
+        return players_table
 
-    def deserialized(self, table):
+    def deserialized(self, players):
         if len(self.players) == 0:
             counter = 1
-            for player in table:
+            for player in players:
                 name = player['name']
                 first_name = player['first_name']
                 date_of_birth = player['date_of_birth']
@@ -131,11 +132,11 @@ class Controllers:
                 counter += 1
                 if counter == 9:
                     break
-        print('trie alphabetique')
-        sort_players = sorted(self.players, key=attrgetter('name'), reverse=False)
+        # print('trie alphabetique')
+        # sort_players = sorted(self.players, key=attrgetter('name'), reverse=False)
         # sort_players = sorted(self.players, key=lambda x: x.name)
         # self.players.sort(key=attrgetter('name'))
-        self.view.show_player(sort_players)
+        # self.view.show_player(sort_players)
 
     def generate_player_pairs(self):
         """retourne liste des joueur ranger par ordre des matchs dans un tours """
@@ -166,12 +167,12 @@ class Controllers:
 
     def results(self):
         self.players = self.rounds.sort_by_point(self.players)
-        tournaments_results = {}
+        tournament_results = {}
         ranking = ['first:', 'second:', 'third:', 'fourth:', 'fifth:', 'sixth:', 'seventh:', 'eighth:']
         for i in range(NUMBER_PLAYERS):
-            tournaments_results[ranking[i]] = self.players[i].player_table()
-        self.tournaments.results = tournaments_results
-        self.view.show_results(tournaments_results)
+            tournament_results[ranking[i]] = self.players[i].player_table()
+        self.tournaments.results = tournament_results
+        self.view.show_results(tournament_results)
 
     def data_recovery(self, data):
         """data assignment retrieve"""
@@ -201,7 +202,6 @@ class Controllers:
                     opponent
                 )
                 self.players.append(player)
-        print(self.players)
 
     def continue_tournament(self):
         """data recovery from database"""
@@ -209,9 +209,7 @@ class Controllers:
         tournaments = self.view.tournament_data(
             "veuillez entrer le nom du tournoi à continuer: "
         )
-        tournament_table = tournament_data_base.table(tournaments)  # f'{tournaments_name}'
-        """tournament = Query()
-        data = tournament_table.search(tournament.tournaments_name == tournaments)"""
+        tournament_table = tournament_data_base.table(tournaments)
         self.data_recovery(tournament_table)
 
     def data_logging(self, element=''):
@@ -249,40 +247,63 @@ class Controllers:
             if menu == '1':  # "Commencer un tournoi"
 
                 sub_menu = self.view.show_menu()
-                if sub_menu == '1':
-                    self.import_player()
-                elif sub_menu == '2':
+                if sub_menu == '1':  # "Importer des joueurs"
+                    players_table = self.import_player()
+                    self.deserialized(players_table)
+                elif sub_menu == '2':  # "Entrer des joueurs"
                     self.get_players()
+                else:  # "modifier les classements"
+                    pass
                 self.get_tournaments()
-                print(self.tournaments)
                 self.start_rounds()
-                self.results()
-                choice = self.view.tournament_data(
-                    "voulez-vous sauvegarder les donnees du tournoi (y/n):  "
-                )
+
                 self.tournaments.remarks_director.append(
                     self.view.tournament_data(
                         "veuillez entrer la remarque  du directeur: "
                     )
                 )
-                if choice == 'y':
-                    self.data_logging('results')
-                    self.data_logging('rounds_number')
-
             elif menu == '2':  # "continuer un trournoi"
                 self.continue_tournament()
                 self.start_rounds()
+            elif menu == '3':  # "afficher les résultats"
                 self.results()
+            elif menu == '4':  # "sauvegader les donnes du tournoi"
                 self.data_logging('results')
                 self.data_logging('rounds_number')
-            elif menu == '3':  # "afficher les résultats"
-                pass
-            elif menu == '4':  # "sauvegader les donnes du tournoi"
-                pass
             elif menu == '5':  # "Liste de tous les joueurs du tournoi "
-                pass
+                players_table = self.import_player()
+                self.deserialized(players_table)
+                choice = self.view.tournament_data(
+                    " 1 : par ordre alphabétique \n 2 : par classement) "
+                )
+                if choice in ['1', '2']:
+                    if choice == '1':
+                        sort_players = sorted(self.players, key=attrgetter('name'), reverse=False)
+                        self.view.show_player(sort_players)
+                    else:
+                        sort_players = sorted(self.players, key=attrgetter('ranking'), reverse=False)
+                        self.view.show_player(sort_players)
             elif menu == '6':  # "Liste de tous les joueurs dans la base de donnee "
-                pass
+                players_table = self.import_player()
+                # print('test')
+                # self.view.show_player(players_table)
+                """for i in players_table:
+                    print(i)"""
+                # print('test')
+                # pprint(players_table)
+                choice = self.view.tournament_data(
+                    " 1 : par ordre alphabétique \n 2 : par classement) "
+                )
+                if choice in ['1', '2']:
+                    if choice == '1':
+                        # sort_players = sorted(players_table, key=attrgetter('name'), reverse=False)
+                        sort_players = sorted(players_table, key=lambda value: value['name'], reverse=False)
+                        self.view.show_player(sort_players)
+                    else:
+                        sort_players = sorted(players_table, key=lambda value: value['ranking'], reverse=False)
+                        # sort_players = sorted(players_table, key=attrgetter('ranking'), reverse=False)
+                        self.view.show_player(sort_players)
+                # self.view.show_player(players_table)
             elif menu == '7':  # "Liste de tous les tournois"
                 pass
             elif menu == '8':  # "Liste de tous les tours du tournoi"

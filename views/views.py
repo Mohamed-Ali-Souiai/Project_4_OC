@@ -17,7 +17,7 @@ class Views:
         return data
 
     def show_results(self, tournaments_results):
-        print("classement des joueurs")
+        print("classement des joueurs dans le tournoi")
         for key in tournaments_results.keys():
             print(f'{key}:{tournaments_results[key]}')
 
@@ -54,12 +54,13 @@ class Views:
             menu = {
                 '1': "Importer des joueurs",
                 '2': "Entrer des joueurs",
+                '3': "modifier les classements"
             }
             choice = ['1', '2']
         while True:
             print('*************** menu ***************')
             for key in menu.keys():
-                print(f"{key}: {menu[key]}")
+                print(f"{key:^3}: {menu[key]:50}")
             select = input("Veuillez entrer la sélection:")
             if select in choice:
                 print(f"votre chois est : {menu[select]}")
