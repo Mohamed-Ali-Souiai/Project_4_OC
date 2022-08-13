@@ -18,7 +18,6 @@ class Controllers:
         self.rounds = rounds
         self.view = view
         self.tournaments = tournaments
-        # self.tournament_details = Tournaments()
 
     def control_date(self, date):
         """retourne une date valide"""
@@ -105,9 +104,6 @@ class Controllers:
         players_data_base = TinyDB('data_base_tournaments.json')
         table = 'players'
         players_table = players_data_base.table(table)
-        """players = []
-        for player in players_table:
-            players.append(player)"""
         return players_table
 
     def deserialized(self, players):
@@ -132,11 +128,6 @@ class Controllers:
                 counter += 1
                 if counter == 9:
                     break
-        # print('trie alphabetique')
-        # sort_players = sorted(self.players, key=attrgetter('name'), reverse=False)
-        # sort_players = sorted(self.players, key=lambda x: x.name)
-        # self.players.sort(key=attrgetter('name'))
-        # self.view.show_player(sort_players)
 
     def generate_player_pairs(self):
         """retourne liste des joueur ranger par ordre des matchs dans un tours """
@@ -271,8 +262,8 @@ class Controllers:
                 self.data_logging('results')
                 self.data_logging('rounds_number')
             elif menu == '5':  # "Liste de tous les joueurs du tournoi "
-                players_table = self.import_player()
-                self.deserialized(players_table)
+                """players_table = self.import_player()
+                self.deserialized(players_table)"""
                 choice = self.view.tournament_data(
                     " 1 : par ordre alphabétique \n 2 : par classement) "
                 )
@@ -285,25 +276,16 @@ class Controllers:
                         self.view.show_player(sort_players)
             elif menu == '6':  # "Liste de tous les joueurs dans la base de donnee "
                 players_table = self.import_player()
-                # print('test')
-                # self.view.show_player(players_table)
-                """for i in players_table:
-                    print(i)"""
-                # print('test')
-                # pprint(players_table)
                 choice = self.view.tournament_data(
                     " 1 : par ordre alphabétique \n 2 : par classement) "
                 )
                 if choice in ['1', '2']:
                     if choice == '1':
-                        # sort_players = sorted(players_table, key=attrgetter('name'), reverse=False)
                         sort_players = sorted(players_table, key=lambda value: value['name'], reverse=False)
                         self.view.show_player(sort_players)
                     else:
                         sort_players = sorted(players_table, key=lambda value: value['ranking'], reverse=False)
-                        # sort_players = sorted(players_table, key=attrgetter('ranking'), reverse=False)
                         self.view.show_player(sort_players)
-                # self.view.show_player(players_table)
             elif menu == '7':  # "Liste de tous les tournois"
                 pass
             elif menu == '8':  # "Liste de tous les tours du tournoi"
