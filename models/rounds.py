@@ -1,4 +1,5 @@
 from models.match import Match
+from random import choice
 
 START_SCORE = 0
 NUMBER_PLAYERS = 8
@@ -13,6 +14,21 @@ class Rounds:
         self.date_end_time = ''
         self.list_match = []
         self.match = Match()
+
+    def draw(self):
+        """drawing of lot"""
+        color_list = []
+        for i in range(NUMBER_PLAYERS):
+            list_color = []
+            if i in [1, 3, 5, 7]:
+                continue
+            color = choice(['black', 'white'])
+            if color == 'black':
+                list_color.append(['black', 'white'])
+            else:
+                list_color.append(['white', 'black'])
+
+        return color_list
 
     def __str__(self):
         """Used in print."""
@@ -42,7 +58,7 @@ class Rounds:
         """" returns list of players sorted by rating"""
         for i in range(len(list_players)):
             j = i
-            while j > 0 and list_players[j-1].player_ranking > list_players[j].player_ranking:
+            while j > 0 and list_players[j-1].ranking > list_players[j].ranking:
                 list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
                 j -= 1
         return list_players
@@ -54,18 +70,28 @@ class Rounds:
             while j > 0 and list_players[j-1].total_points <= list_players[j].total_points:
                 if list_players[j-1].total_points < list_players[j].total_points:
                     list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
-                elif list_players[j-1].player_ranking > list_players[j].player_ranking:
+                elif list_players[j-1].ranking > list_players[j].ranking:
                     list_players[j - 1], list_players[j] = list_players[j], list_players[j - 1]
                 j -= 1
         return list_players
+
+    def list_pair(self, list_players):
+        """return player pair list"""
+        player_pair_list = []
+        for i in range(NUMBER_PLAYERS):
+            if i in [1, 3, 5, 7]:
+                continue
+            pair = list(self.match.player_pair(list_players[i], list_players[i+1]))
+            player_pair_list.append(pair)
+        return player_pair_list
 
     def first_rounds(self, list_players):
         """returns the pair of round players """
         self.list_match = []
         for i in range(HALF_NUMBER_OF_PLAYERS):
             pair = [list_players[i], list_players[i+4]]
-            list_players[i].opponent_player.append(list_players[i+4].player_name)
-            list_players[i+4].opponent_player.append(list_players[i].player_name)
+            list_players[i].opponent.append(list_players[i+4].name)
+            list_players[i+4].opponent.append(list_players[i].name)
             self.list_match.extend(pair)
         return self.list_match
 
@@ -78,13 +104,13 @@ class Rounds:
                 continue
             j = i
             while j < len(list_players)-1:
-                if list_players[j].player_name in list_players[j+1].opponent_player:
+                if list_players[j].name in list_players[j+1].opponent:
                     j += 1
                 else:
                     list_players[j], list_players[j+1] = list_players[j+1], list_players[j]
                     break
-            list_players[i].opponent_player.append(list_players[i + 1].player_name)
-            list_players[i + 1].opponent_player.append(list_players[i].player_name)
+            list_players[i].opponent.append(list_players[i + 1].name)
+            list_players[i + 1].opponent.append(list_players[i].name)
         self.list_match = list_players
         """index = 0
         copy_list_players = list_players.copy()

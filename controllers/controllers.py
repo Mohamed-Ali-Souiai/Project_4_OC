@@ -28,12 +28,13 @@ class Controllers:
             return None
         return date
 
-    def control_score(self, player):
+    def control_score(self, index):
+        """retourne un valeur valide"""
         while True:
             try:
                 score = float(
                     self.view.tournament_data(
-                        f"veuillez entrer le score du {self.players[player].player_name}: "
+                        f"veuillez entrer le score du {self.players[index].name}: "
                     )
                 )
                 break
@@ -165,18 +166,28 @@ class Controllers:
         self.tournaments.results = tournament_results
         self.view.show_results(tournament_results)
 
+    def continue_tournament(self):
+        """data recovery from database"""
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournaments = self.view.tournament_data(
+            "veuillez entrer le nom du tournoi à continuer: "
+        )
+        tournament_table = tournament_data_base.table(tournaments)
+        request = Query()
+        recovery = tournament_table.search(request.tournaments_name == tournaments)
+        self.data_recovery(recovery)
+
     def data_recovery(self, data):
         """data assignment retrieve"""
         self.tournaments.tournaments_name = data[0]['tournaments_name']
         self.tournaments.tournaments_venue = data[0]['tournaments_venue']
-        self.tournaments.tournaments_date = data[0]['tournaments_date']
+        self.tournaments.tournaments_date.extend(data[0]['tournaments_date'])
         self.tournaments.time_control = data[0]['time_control']
         self.tournaments.rounds_number = data[0]['rounds_number']
-        self.tournaments.remarks_director = data[0]['remarks_director']
+        self.tournaments.remarks_director.extend(data[0]['remarks_director'])
         self.tournaments.list_players = data[0]['list_players']
         self.tournaments.list_rounds_tournament = data[0]['list_rounds_tournament']
         self.tournaments.results = data[0]['results']
-        print(self.tournaments)
         if len(self.players) == 0:
             for key in self.tournaments.results.keys():
                 name = self.tournaments.results[key]['name']
@@ -194,15 +205,6 @@ class Controllers:
                 )
                 self.players.append(player)
 
-    def continue_tournament(self):
-        """data recovery from database"""
-        tournament_data_base = TinyDB('data_base_tournaments.json')
-        tournaments = self.view.tournament_data(
-            "veuillez entrer le nom du tournoi à continuer: "
-        )
-        tournament_table = tournament_data_base.table(tournaments)
-        self.data_recovery(tournament_table)
-
     def data_logging(self, element=''):
         """data storage"""
         if element == '':
@@ -216,12 +218,16 @@ class Controllers:
             tournament_table.update({element: list_rounds[element]})
 
     def start_rounds(self):
-        element = ''
-        while self.tournaments.rounds_number > 0:
-            self.generate_player_pairs()
-            self.end_rounds_results()
-            self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
-            self.data_logging(element)
+        # while self.tournaments.rounds_number > 0:
+        self.generate_player_pairs()
+        """affiches paire"""
+        self.view.show_system_message('*************** MATCH ***************')
+        list_pair = self.rounds.list_pair(self.players)  # cette methode n'existe pas
+        color = self.rounds.draw()
+        self.view.show_match(list_pair, color)
+        self.end_rounds_results()
+        self.tournaments.list_rounds_tournament.append(self.rounds.rounds_table())
+        """self.data_logging(element)
             element = 'list_rounds_tournament'
             self.tournaments.rounds_number -= 1
             choice = self.view.tournament_data(
@@ -229,10 +235,14 @@ class Controllers:
             )
             if choice == 'n':
                 break
+            else:
+                self.view.show_system_message(
+                    'le systeme va sauvegarder la progression'
+                )
+                self.data_logging()"""
 
     def run(self):
         """run the chess"""
-        # boolean = True
         while True:
             menu = self.view.show_menu('principal')
             if menu == '1':  # "Commencer un tournoi"
@@ -246,22 +256,25 @@ class Controllers:
                 else:  # "modifier les classements"
                     pass
                 self.get_tournaments()
-                self.start_rounds()
+            elif menu == '2':  # "continuer un trournoi"
+                self.continue_tournament()
 
+            elif menu == '3':  # "jouer une round"
+                self.start_rounds()
                 self.tournaments.remarks_director.append(
                     self.view.tournament_data(
                         "veuillez entrer la remarque  du directeur: "
                     )
                 )
-            elif menu == '2':  # "continuer un trournoi"
-                self.continue_tournament()
-                self.start_rounds()
-            elif menu == '3':  # "afficher les résultats"
+            elif menu == '4':  # "afficher les résultats"
                 self.results()
-            elif menu == '4':  # "sauvegader les donnes du tournoi"
-                self.data_logging('results')
-                self.data_logging('rounds_number')
-            elif menu == '5':  # "Liste de tous les joueurs du tournoi "
+            elif menu == '5':  # "sauvegader les donnes du tournoi"
+                if self.tournaments.rounds_number == 4:
+                    self.data_logging()
+                else:
+                    self.data_logging('results')
+                    self.data_logging('rounds_number')
+            elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 """players_table = self.import_player()
                 self.deserialized(players_table)"""
                 choice = self.view.tournament_data(
@@ -274,7 +287,7 @@ class Controllers:
                     else:
                         sort_players = sorted(self.players, key=attrgetter('ranking'), reverse=False)
                         self.view.show_player(sort_players)
-            elif menu == '6':  # "Liste de tous les joueurs dans la base de donnee "
+            elif menu == '7':  # "Liste de tous les joueurs dans la base de donnee "
                 players_table = self.import_player()
                 choice = self.view.tournament_data(
                     " 1 : par ordre alphabétique \n 2 : par classement) "
@@ -286,34 +299,11 @@ class Controllers:
                     else:
                         sort_players = sorted(players_table, key=lambda value: value['ranking'], reverse=False)
                         self.view.show_player(sort_players)
-            elif menu == '7':  # "Liste de tous les tournois"
+            elif menu == '8':  # "Liste de tous les tournois"
                 pass
-            elif menu == '8':  # "Liste de tous les tours du tournoi"
+            elif menu == '9':  # "Liste de tous les tours du tournoi"
                 pass
-            elif menu == '9':  # "Liste de tous les matchs du tournoi"
+            elif menu == '10':  # "Liste de tous les matchs du tournoi"
                 pass
             else:
                 break
-
-            """match menu:
-                case '1':
-                    pass
-                case '2':
-                    pass
-                case '3':
-                    pass
-                case '4':
-                    pass
-                case '5':
-                    pass
-                case '6':
-                    pass
-                case '7':
-                    pass
-                case '8':
-                    pass
-                case '9':
-                    pass
-                case other:
-                    print("_")"""
-
