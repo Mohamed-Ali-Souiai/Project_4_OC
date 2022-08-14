@@ -19,15 +19,13 @@ class Rounds:
         """drawing of lot"""
         color_list = []
         for i in range(NUMBER_PLAYERS):
-            list_color = []
             if i in [1, 3, 5, 7]:
                 continue
             color = choice(['black', 'white'])
             if color == 'black':
-                list_color.append(['black', 'white'])
+                color_list.append(['black', 'white'])
             else:
-                list_color.append(['white', 'black'])
-
+                color_list.append(['white', 'black'])
         return color_list
 
     def __str__(self):

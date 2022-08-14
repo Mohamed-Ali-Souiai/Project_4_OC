@@ -3,6 +3,8 @@
 
 """Base view."""
 
+NUMBER_PLAYERS = 8
+
 
 class Views:
     def __init__(self):
@@ -33,15 +35,19 @@ class Views:
 
     def show_match(self, players, colors):
         counter = 1
-        for player_pair,color_pair in zip(players,colors):
+        for player_pair, color_pair in zip(players, colors):
             if counter == 1:
                 print(f"{'name':^15}|{'first_name':^15}|{'ranking':^15}|{'color':^15}|")
             print(f'**********  match N°{counter}  **********')
-            for player,color in zip(player_pair,color_pair):
-                print(f"{player['name']:15}|{player['first_name']:15}|"
-                      f"{player['ranking']:<15}|{color['ranking']:<15}|")
+            for player, color in zip(player_pair, color_pair):
+                print(f"{player['name']:15}|{player['first_name']:15}|{player['ranking']:<15}|{color:<15}|")
             counter += 1
 
+    def show_color(self, players, colors):
+        for i in range(8):
+            print(f"{players[i]['name']}:{colors[i]}")
+            if i in [2, 4, 6]:
+                print('*****************************')
 
     def sow_tournament(self):
         pass
