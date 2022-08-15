@@ -274,7 +274,7 @@ class Controllers:
                 # self.results()
                 self.view.show_results(self.tournaments.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
-                if self.tournaments.rounds_number > 0:
+                if self.tournaments.rounds_number in [4, 3, 2, 1]:
                     self.data_logging()
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 """players_table = self.import_player()
