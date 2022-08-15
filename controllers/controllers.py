@@ -164,7 +164,7 @@ class Controllers:
         for i in range(NUMBER_PLAYERS):
             tournament_results[ranking[i]] = self.players[i].player_table()
         self.tournaments.results = tournament_results
-        self.view.show_results(tournament_results)
+        # self.view.show_results(tournament_results)
 
     def continue_tournament(self):
         """data recovery from database"""
@@ -205,24 +205,27 @@ class Controllers:
                 )
                 self.players.append(player)
 
-    def data_logging(self, element=''):
+    def data_logging(self):
         """data storage"""
-        if element == '':
+        if self.tournaments.rounds_number == 4:
             tournament_data_base = TinyDB('data_base_tournaments.json')
             tournament_table = tournament_data_base.table('tournaments')  # f'{self.tournaments.tournaments_name}'
             tournament_table.insert(self.tournaments.tournaments_table())
+            self.tournaments.rounds_number -= 1
         else:
             tournament_data_base = TinyDB('data_base_tournaments.json')
             tournament_table = tournament_data_base.table('tournaments')  # f'{self.tournaments.tournaments_name}'
-            list_rounds = self.tournaments.tournaments_table()
-            tournament_table.update({element: list_rounds[element]})
+            # list_rounds = self.tournaments.tournaments_table()
+            # tournament_table.update({element: list_rounds[element]})
+            tournament_table.update(self.tournaments.tournaments_table())
+            self.tournaments.rounds_number -= 1
 
     def start_rounds(self):
         # while self.tournaments.rounds_number > 0:
         self.generate_player_pairs()
         """affiches paire"""
         self.view.show_system_message('*************** MATCH ***************')
-        list_pair = self.rounds.list_pair(self.players)  # cette methode n'existe pas
+        list_pair = self.rounds.list_pair(self.players)
         color = self.rounds.draw()
         self.view.show_match(list_pair, color)
         self.end_rounds_results()
@@ -261,19 +264,18 @@ class Controllers:
 
             elif menu == '3':  # "jouer une round"
                 self.start_rounds()
+                self.results()
                 self.tournaments.remarks_director.append(
                     self.view.tournament_data(
                         "veuillez entrer la remarque  du directeur: "
                     )
                 )
             elif menu == '4':  # "afficher les résultats"
-                self.results()
+                # self.results()
+                self.view.show_results(self.tournaments.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
-                if self.tournaments.rounds_number == 4:
+                if self.tournaments.rounds_number > 0:
                     self.data_logging()
-                else:
-                    self.data_logging('results')
-                    self.data_logging('rounds_number')
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 """players_table = self.import_player()
                 self.deserialized(players_table)"""

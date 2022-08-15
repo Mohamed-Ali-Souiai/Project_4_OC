@@ -18,10 +18,10 @@ class Views:
             return None
         return data
 
-    def show_results(self, tournaments_results):
+    def show_results(self, tournament_results):
         print("classement des joueurs dans le tournoi")
-        for key in tournaments_results.keys():
-            print(f'{key}:{tournaments_results[key]}')
+        for key in tournament_results.keys():
+            print(f'{key}:{tournament_results[key]}')
 
     def show_player(self, players):
         counter = 1
