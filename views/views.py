@@ -69,14 +69,14 @@ class Views:
                 '8': "Liste de tous les tournois",
                 '9': "Liste de tous les tours du tournoi",
                 '10': "Liste de tous les matchs du tournoi",
+                '11': "modifier les classements",
                 '0': "quitter"
             }
-            choice = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+            choice = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
         else:
             menu = {
                 '1': "Importer des joueurs",
-                '2': "Entrer des joueurs",
-                '3': "modifier les classements"
+                '2': "Entrer des joueurs"
             }
             choice = ['1', '2']
         while True:

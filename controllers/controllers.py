@@ -172,7 +172,7 @@ class Controllers:
         tournaments = self.view.tournament_data(
             "veuillez entrer le nom du tournoi à continuer: "
         )
-        tournament_table = tournament_data_base.table(tournaments)
+        tournament_table = tournament_data_base.table('tournaments')
         request = Query()
         recovery = tournament_table.search(request.tournaments_name == tournaments)
         self.data_recovery(recovery)
@@ -209,11 +209,11 @@ class Controllers:
         """data storage"""
         if element == '':
             tournament_data_base = TinyDB('data_base_tournaments.json')
-            tournament_table = tournament_data_base.table(f'{self.tournaments.tournaments_name}')
+            tournament_table = tournament_data_base.table('tournaments')  # f'{self.tournaments.tournaments_name}'
             tournament_table.insert(self.tournaments.tournaments_table())
         else:
             tournament_data_base = TinyDB('data_base_tournaments.json')
-            tournament_table = tournament_data_base.table(f'{self.tournaments.tournaments_name}')
+            tournament_table = tournament_data_base.table('tournaments')  # f'{self.tournaments.tournaments_name}'
             list_rounds = self.tournaments.tournaments_table()
             tournament_table.update({element: list_rounds[element]})
 
@@ -304,6 +304,8 @@ class Controllers:
             elif menu == '9':  # "Liste de tous les tours du tournoi"
                 pass
             elif menu == '10':  # "Liste de tous les matchs du tournoi"
+                pass
+            elif menu == '11':  # "modifier les classements"
                 pass
             else:
                 break
