@@ -1,10 +1,10 @@
 env/
-flake-report/
+#flake-report/
 data_base_player.json/
 data_base_rounds.json/
 data_base_tournaments.json/
 .idea/
-flake-report/
+#flake-report/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
