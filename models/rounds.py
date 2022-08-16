@@ -30,16 +30,19 @@ class Rounds:
 
     def __str__(self):
         """Used in print."""
-        return f"\nNom de la tours:{self.rounds_name}\n" \
-               f"Date debut:{self.date_start_time}\n" \
-               f"Date fin:{self.date_end_time}\n" \
-               f"liste des matchs:{self.list_match}\n"
+        return (
+            f"\nNom de la tours:{self.rounds_name}\n"
+            f"Date debut:{self.date_start_time}\n"
+            f"Date fin:{self.date_end_time}\n"
+            f"liste des matchs:{self.list_match}\n"
+        )
 
     def __repr__(self):
         """Used in print."""
         return str(self)
 
     def __getitem__(self, item):
+        """Used in print."""
         return self.__dict__[item]
 
     def rounds_table(self):
@@ -110,23 +113,6 @@ class Rounds:
             list_players[i].opponent.append(list_players[i + 1].name)
             list_players[i + 1].opponent.append(list_players[i].name)
         self.list_match = list_players
-        """index = 0
-        copy_list_players = list_players.copy()
-        while len(copy_list_players) > 0:
-            if copy_list_players[index].player_name not in copy_list_players[index+1].opponent_player:
-                pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
-            elif copy_list_players[index].player_name not in copy_list_players[index+2].opponent_player \
-                    and len(copy_list_players) > 1:
-                pair = [copy_list_players.pop(index), copy_list_players.pop(index+1)]
-            elif copy_list_players[index].player_name not in copy_list_players[index+3].opponent_player \
-                    and len(copy_list_players) > 2:
-                pair = [copy_list_players.pop(index), copy_list_players.pop(index+2)]
-            elif copy_list_players[index].player_name not in copy_list_players[index+4].opponent_player \
-                    and len(copy_list_players) > 3:
-                pair = [copy_list_players.pop(index), copy_list_players.pop(index+3)]
-            else:
-                pair = [copy_list_players.pop(index), copy_list_players.pop(index)]
-            self.list_match.extend(pair)"""
         return self.list_match
 
     def rounds_results(self, list_players, score):
