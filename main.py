@@ -1,3 +1,5 @@
+"""Entry point."""
+
 from views.views import Views
 from controllers.controllers import Controllers
 from models.tournament import Tournament

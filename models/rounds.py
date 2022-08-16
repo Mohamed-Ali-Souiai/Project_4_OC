@@ -12,6 +12,7 @@ class Rounds:
         self.rounds_name = ''
         self.date_start_time = ''
         self.date_end_time = ''
+        self.results = {}
         self.list_match = []
         self.match = Match()
 
@@ -34,6 +35,7 @@ class Rounds:
             f"\nNom de la tours:{self.rounds_name}\n"
             f"Date debut:{self.date_start_time}\n"
             f"Date fin:{self.date_end_time}\n"
+            f"results:{self.results}\n"
             f"liste des matchs:{self.list_match}\n"
         )
 
@@ -51,6 +53,7 @@ class Rounds:
             'rounds_name': self.rounds_name,
             'date_start_time': self.date_start_time,
             'date_end_time': self.date_end_time,
+            'results': self.results,
             'list_match': self.list_match
         }
         return dict_rounds
@@ -59,8 +62,10 @@ class Rounds:
         """" returns list of players sorted by rating"""
         for i in range(len(list_players)):
             j = i
-            while j > 0 and list_players[j-1].ranking > list_players[j].ranking:
-                list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
+            while j > 0 and list_players[j-1].ranking > \
+                    list_players[j].ranking:
+                list_players[j-1], list_players[j] = \
+                    list_players[j], list_players[j-1]
                 j -= 1
         return list_players
 
@@ -68,11 +73,15 @@ class Rounds:
         """returns list of players sorted by point"""
         for i in range(len(list_players)):
             j = i
-            while j > 0 and list_players[j-1].total_points <= list_players[j].total_points:
-                if list_players[j-1].total_points < list_players[j].total_points:
-                    list_players[j-1], list_players[j] = list_players[j], list_players[j-1]
+            while j > 0 and list_players[j-1].total_points <= \
+                    list_players[j].total_points:
+                if list_players[j-1].total_points < \
+                        list_players[j].total_points:
+                    list_players[j-1], list_players[j] = \
+                        list_players[j], list_players[j-1]
                 elif list_players[j-1].ranking > list_players[j].ranking:
-                    list_players[j - 1], list_players[j] = list_players[j], list_players[j - 1]
+                    list_players[j - 1], list_players[j] = \
+                        list_players[j], list_players[j - 1]
                 j -= 1
         return list_players
 
@@ -82,7 +91,9 @@ class Rounds:
         for i in range(NUMBER_PLAYERS):
             if i in [1, 3, 5, 7]:
                 continue
-            pair = list(self.match.player_pair(list_players[i], list_players[i+1]))
+            pair = list(
+                self.match.player_pair(list_players[i], list_players[i+1])
+            )
             player_pair_list.append(pair)
         return player_pair_list
 
@@ -108,7 +119,8 @@ class Rounds:
                 if list_players[j].name in list_players[j+1].opponent:
                     j += 1
                 else:
-                    list_players[j], list_players[j+1] = list_players[j+1], list_players[j]
+                    list_players[j], list_players[j+1] = \
+                        list_players[j+1], list_players[j]
                     break
             list_players[i].opponent.append(list_players[i + 1].name)
             list_players[i + 1].opponent.append(list_players[i].name)
@@ -117,13 +129,15 @@ class Rounds:
 
     def rounds_results(self, list_players, score):
         """retourne liste des match de la tours"""
+        players = list_players.copy()
         self.list_match = []
         for i in range(NUMBER_PLAYERS):
             if i in [1, 3, 5, 7]:
                 continue
-            first_player = self.match.player_score(list_players[i], score[i])
-            second_player = self.match.player_score(list_players[i + 1], score[i + 1])
+            first_player = self.match.player_score(players[i], score[i])
+            second_player = self.match.player_score(
+                players[i + 1], score[i + 1]
+            )
             pair = self.match.player_pair(first_player, second_player)
             self.list_match.append(pair)
         return self.list_match
-

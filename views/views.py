@@ -4,6 +4,7 @@
 """Base view."""
 
 NUMBER_PLAYERS = 8
+ROUNDS_NUMBER = 4
 
 
 class Views:
@@ -30,13 +31,13 @@ class Views:
         for player in players:
             if counter == 1:
                 print(f"{' ':3}|{'name':^15}|{'first_name':^15}|"
-                      f"{'date_of_birth':^15} |{'sex':^15}|{'ranking':^15}|")
+                      f"{'date_of_birth':^15}|{'sex':^15}|{'ranking':^15}|")
             print(f"{counter:3}|{player['name']:15}|{player['first_name']:15}|"
                   f"{player['date_of_birth']:15} |{player['sex']:15}|"
                   f"{player['ranking']:<15}|")
             counter += 1
 
-    def show_match(self, players, colors):
+    def show_meetings(self, players, colors):
         """displays the list of matches"""
         counter = 1
         for player_pair, color_pair in zip(players, colors):
@@ -49,8 +50,19 @@ class Views:
                       f"{player['ranking']:<15}|{color:<15}|")
             counter += 1
 
-    def show_rounds(self, list_rounds):
-        pass
+    def show_match(self, tournament):
+        for i in range(ROUNDS_NUMBER):
+            list_rounds = tournament[0]['list_rounds_tournament']
+            print(f"{list_rounds[i]['list_match']}")
+
+    def show_rounds(self, tournament):
+        for i in range(ROUNDS_NUMBER):
+            list_rounds = tournament[0]['list_rounds_tournament']
+            print(f"{list_rounds[i]['rounds_name']}")
+            print(f"{list_rounds[i]['date_start_time']}")
+            print(f"{list_rounds[i]['date_end_time']}")
+            for key in list_rounds[i]['results'].keys():
+                print(f"{key}:{list_rounds[i]['results'][key]}")
 
     def sow_tournament(self, table):
         """displays the list of tournaments"""

@@ -1,3 +1,5 @@
+"""Player ."""
+
 
 class Player:
     def __init__(self, name, first_name,
@@ -43,4 +45,3 @@ class Player:
             'opponent': self.opponent
         }
         return serialized
-    

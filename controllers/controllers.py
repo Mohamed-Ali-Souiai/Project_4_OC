@@ -61,6 +61,9 @@ class Controllers:
                 "veuillez entrer la remarque  du directeur: "
             )
         )
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournament_table = tournament_data_base.table('tournaments')
+        tournament_table.insert(self.tournament.tournament_table())
 
     def get_players(self):
         """returns the list of players"""
@@ -176,6 +179,7 @@ class Controllers:
         ]
         for i in range(NUMBER_PLAYERS):
             tournament_results[ranking[i]] = self.players[i].player_table()
+        self.rounds.results = tournament_results.copy()
         self.tournament.results = tournament_results
 
     def continue_tournament(self):
@@ -223,16 +227,9 @@ class Controllers:
 
     def data_logging(self):
         """data storage"""
-        if self.tournament.rounds_number == 4:
-            tournament_data_base = TinyDB('data_base_tournaments.json')
-            tournament_table = tournament_data_base.table('tournaments')
-            tournament_table.insert(self.tournament.tournament_table())
-            # self.tournament.rounds_number -= 1
-        elif self.tournament.rounds_number > 0:
-            tournament_data_base = TinyDB('data_base_tournaments.json')
-            tournament_table = tournament_data_base.table('tournaments')
-            tournament_table.update(self.tournament.tournament_table())
-            # self.tournament.rounds_number -= 1
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournament_table = tournament_data_base.table('tournaments')
+        tournament_table.update(self.tournament.tournament_table())
 
     def start_rounds(self):
         """start the rounds"""
@@ -241,10 +238,16 @@ class Controllers:
         self.view.show_system_message('*************** MATCH ***************')
         list_pair = self.rounds.list_pair(self.players)
         color = self.rounds.draw()
-        self.view.show_match(list_pair, color)
+        self.view.show_meetings(list_pair, color)
         self.end_rounds_results()
+        self.results()
         self.tournament.list_rounds_tournament.append(
             self.rounds.rounds_table()
+        )
+        self.tournament.remarks_director.append(
+            self.view.tournament_data(
+                "veuillez entrer la remarque  du directeur: "
+            )
         )
         if self.rounds.rounds_name == 'rounds2':
             self.tournament.rounds_number = 3
@@ -252,6 +255,12 @@ class Controllers:
             self.tournament.rounds_number = 2
         elif self.rounds.rounds_name == 'rounds4':
             self.tournament.rounds_number = 1
+
+    def table_all_tournaments(self):
+        """returns the tournament table"""
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournament_table = tournament_data_base.table('tournaments')
+        return tournament_table
 
     def run(self):
         """run the chess"""
@@ -273,12 +282,7 @@ class Controllers:
 
             elif menu == '3':  # "jouer une round"
                 self.start_rounds()
-                self.results()
-                self.tournament.remarks_director.append(
-                    self.view.tournament_data(
-                        "veuillez entrer la remarque  du directeur: "
-                    )
-                )
+                # self.results()
             elif menu == '4':  # "afficher les résultats"
                 self.view.show_results(self.tournament.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
@@ -319,14 +323,35 @@ class Controllers:
                         )
                         self.view.show_player(sort_players)
             elif menu == '8':  # "Liste de tous les tournois"
-                tournament_data_base = TinyDB('data_base_tournaments.json')
-                tournament_table = tournament_data_base.table('tournaments')
+                tournament_table = self.table_all_tournaments()
                 self.view.sow_tournament(tournament_table)
             elif menu == '9':  # "Liste de tous les tours du tournoi"
-                pass
+                table = self.table_all_tournaments()
+                query = Query()
+                name = self.view.tournament_data(
+                    "veuillez entrer le nom de tournois"
+                )
+                tournament = table.search(
+                    query.tournament_name == name
+                )
+                self.view.show_rounds(tournament)
             elif menu == '10':  # "Liste de tous les matchs du tournoi"
-                pass
+                table = self.table_all_tournaments()
+                query = Query()
+                name = self.view.tournament_data(
+                    "veuillez entrer le nom de tournois"
+                )
+                tournament = table.search(
+                    query.tournament_name == name
+                )
+                self.view.show_match(tournament)
             elif menu == '11':  # "modifier les classements"
-                pass
+                players_data_base = TinyDB('data_base_tournaments.json')
+                table = players_data_base.table('players')
+                query = Query()
+                name = self.view.tournament_data(
+                    "veuillez entrer le nom du joueur"
+                )
+                player = table.search(query.name == name)
             else:
                 break
