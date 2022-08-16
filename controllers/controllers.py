@@ -350,8 +350,11 @@ class Controllers:
                 table = players_data_base.table('players')
                 query = Query()
                 name = self.view.tournament_data(
-                    "veuillez entrer le nom du joueur"
+                    "veuillez entrer le nom du joueur :"
                 )
-                player = table.search(query.name == name)
+                value = self.view.tournament_data(
+                    "veuillez entrer le nouveau valeur :"
+                )
+                table.update({'ranking': value}, query.name == name)
             else:
                 break
