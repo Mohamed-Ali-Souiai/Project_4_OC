@@ -75,16 +75,20 @@ class Views:
         counter = 1
         for tournament in table:
             if counter == 1:
-                print(f"-*- nom du tournoi:{tournament['tournament_name']}\n"
-                      f"-*- lieu du tournoi:{tournament['tournament_venue']}\n"
-                      f"-*- Date du tournoi:{tournament['tournament_date']}\n"
-                      f"-*- controle du temps:{tournament['time_control']}\n"
-                      f"-*- remarque du directeur:")
+                print(f"-*- nom du tournoi        : {tournament['tournament_name']}\n"
+                      f"-*- lieu du tournoi       : {tournament['tournament_venue']}\n"
+                      f"-*- Date du tournoi       : {tournament['tournament_date']}\n"
+                      f"-*- controle du temps     : {tournament['time_control']}\n"
+                      f"-*- remarque du directeur :")
                 for remark in tournament['remarks_director']:
                     print(f"    - {remark}")
                 print('-*-resultats:')
+                """for key in tournament['results'].keys():
+                    print(f"    *_* {key}:{tournament['results'][key]}")"""
                 for key in tournament['results'].keys():
-                    print(f"    *_* {key}:{tournament['results'][key]}")
+                    print(f"{key:9} {tournament['results'][key]['name']:10} "
+                          f"{tournament['results'][key]['first_name']:10}"
+                          f"avec score de '{tournament['results'][key]['total_points']:10}'")
 
     def show_system_message(self, message):
         """displays a system message"""
