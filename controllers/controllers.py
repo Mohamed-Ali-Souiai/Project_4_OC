@@ -262,24 +262,89 @@ class Controllers:
         tournament_table = tournament_data_base.table('tournaments')
         return tournament_table
 
+    def search_player(self):
+        """search for player to update them '11' """
+        players_data_base = TinyDB('data_base_tournaments.json')
+        table = players_data_base.table('players')
+        query = Query()
+        name = self.view.tournament_data(
+            "veuillez entrer le nom du joueur :"
+        )
+        value = self.view.tournament_data(
+            "veuillez entrer le nouveau valeur :"
+        )
+        table.update({'ranking': value}, query.name == name)
+
+    def List_tournament_matches(self):
+        """List of all tournament matches"""
+        table = self.table_all_tournaments()
+        query = Query()
+        name = self.view.tournament_data(
+            "veuillez entrer le nom de tournois"
+        )
+        tournament = table.search(
+            query.tournament_name == name
+        )
+        self.view.show_match(tournament)
+
+    def begin_tournament(self):
+        """ start tournament """
+        sub_menu = self.view.show_menu()
+        if sub_menu == '1':  # "Importer des joueurs"
+            players_table = self.import_player()
+            self.deserialized(players_table)
+        elif sub_menu == '2':  # "Entrer des joueurs"
+            self.get_players()
+        else:  # "modifier les classements"
+            pass
+        self.get_tournament()
+
+    def List_tournament_players(self):
+        """List of all tournament players '6' """
+        choice = self.view.tournament_data(
+            " 1 : par ordre alphabétique \n 2 : par classement) "
+        )
+        if choice in ['1', '2']:
+            if choice == '1':
+                sort_players = sorted(
+                    self.players, key=attrgetter('name'), reverse=False
+                )
+                self.view.show_player(sort_players)
+            else:
+                sort_players = sorted(
+                    self.players, key=attrgetter('ranking'),
+                    reverse=False
+                )
+                self.view.show_player(sort_players)
+
+    def List_players_db(self):
+        """ List of all players in the database '7' """
+        players_table = self.import_player()
+        choice = self.view.tournament_data(
+            " 1 : par ordre alphabétique \n 2 : par classement) "
+        )
+        if choice in ['1', '2']:
+            if choice == '1':
+                sort_players = sorted(
+                    players_table, key=lambda value: value['name'],
+                    reverse=False
+                )
+                self.view.show_player(sort_players)
+            else:
+                sort_players = sorted(
+                    players_table, key=lambda value: value['ranking'],
+                    reverse=False
+                )
+                self.view.show_player(sort_players)
+
     def run(self):
         """run the chess"""
         while True:
             menu = self.view.show_menu('principal')
             if menu == '1':  # "Commencer un tournoi"
-
-                sub_menu = self.view.show_menu()
-                if sub_menu == '1':  # "Importer des joueurs"
-                    players_table = self.import_player()
-                    self.deserialized(players_table)
-                elif sub_menu == '2':  # "Entrer des joueurs"
-                    self.get_players()
-                else:  # "modifier les classements"
-                    pass
-                self.get_tournament()
+                self.begin_tournament()
             elif menu == '2':  # "continuer un trournoi"
                 self.continue_tournament()
-
             elif menu == '3':  # "jouer une round"
                 self.start_rounds()
                 # self.results()
@@ -289,39 +354,9 @@ class Controllers:
                 if self.tournament.rounds_number in [4, 3, 2, 1]:
                     self.data_logging()
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
-                choice = self.view.tournament_data(
-                    " 1 : par ordre alphabétique \n 2 : par classement) "
-                )
-                if choice in ['1', '2']:
-                    if choice == '1':
-                        sort_players = sorted(
-                            self.players, key=attrgetter('name'), reverse=False
-                        )
-                        self.view.show_player(sort_players)
-                    else:
-                        sort_players = sorted(
-                            self.players, key=attrgetter('ranking'),
-                            reverse=False
-                        )
-                        self.view.show_player(sort_players)
+                self.List_tournament_players()
             elif menu == '7':  # Liste de tous les joueurs dans la db
-                players_table = self.import_player()
-                choice = self.view.tournament_data(
-                    " 1 : par ordre alphabétique \n 2 : par classement) "
-                )
-                if choice in ['1', '2']:
-                    if choice == '1':
-                        sort_players = sorted(
-                            players_table, key=lambda value: value['name'],
-                            reverse=False
-                        )
-                        self.view.show_player(sort_players)
-                    else:
-                        sort_players = sorted(
-                            players_table, key=lambda value: value['ranking'],
-                            reverse=False
-                        )
-                        self.view.show_player(sort_players)
+                self.List_players_db()
             elif menu == '8':  # "Liste de tous les tournois"
                 tournament_table = self.table_all_tournaments()
                 self.view.sow_tournament(tournament_table)
@@ -336,25 +371,8 @@ class Controllers:
                 )
                 self.view.show_rounds(tournament)
             elif menu == '10':  # "Liste de tous les matchs du tournoi"
-                table = self.table_all_tournaments()
-                query = Query()
-                name = self.view.tournament_data(
-                    "veuillez entrer le nom de tournois"
-                )
-                tournament = table.search(
-                    query.tournament_name == name
-                )
-                self.view.show_match(tournament)
+                self.List_tournament_matches()
             elif menu == '11':  # "modifier les classements"
-                players_data_base = TinyDB('data_base_tournaments.json')
-                table = players_data_base.table('players')
-                query = Query()
-                name = self.view.tournament_data(
-                    "veuillez entrer le nom du joueur :"
-                )
-                value = self.view.tournament_data(
-                    "veuillez entrer le nouveau valeur :"
-                )
-                table.update({'ranking': value}, query.name == name)
+                self.search_player()
             else:
                 break
