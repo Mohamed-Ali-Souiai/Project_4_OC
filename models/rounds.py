@@ -63,8 +63,7 @@ class Rounds:
         """" returns list of players sorted by rating"""
         for i in range(len(list_players)):
             j = i
-            while j > 0 and list_players[j-1].ranking > \
-                    list_players[j].ranking:
+            while j > 0 and list_players[j-1].ranking > list_players[j].ranking:
                 list_players[j-1], list_players[j] = \
                     list_players[j], list_players[j-1]
                 j -= 1
@@ -116,8 +115,7 @@ class Rounds:
                 if list_players[j].name in list_players[j+1].opponent:
                     j += 1
                 else:
-                    list_players[j], list_players[j+1] = \
-                        list_players[j+1], list_players[j]
+                    list_players[j], list_players[j+1] = list_players[j+1], list_players[j]
                     break
             list_players[i].opponent.append(list_players[i + 1].name)
             list_players[i + 1].opponent.append(list_players[i].name)
