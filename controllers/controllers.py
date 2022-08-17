@@ -256,6 +256,8 @@ class Controllers:
                 )
             )
             self.rounds.rounds_name -= 1
+        else:
+            self.view.show_system_message("les 4 rounds sont deja ete discute")
 
     def begin_tournament(self):
         """ start tournament '1' """
