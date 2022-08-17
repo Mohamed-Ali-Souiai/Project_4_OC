@@ -61,11 +61,14 @@ class Views:
     def show_rounds(self, tournament):
         for i in range(ROUNDS_NUMBER):
             list_rounds = tournament[0]['list_rounds_tournament']
-            print(f"{list_rounds[i]['rounds_name']}")
-            print(f"{list_rounds[i]['date_start_time']}")
-            print(f"{list_rounds[i]['date_end_time']}")
+            print(f" {list_rounds[i]['rounds_name']:^30}")
+            print(f"date debut       :{list_rounds[i]['date_start_time']}")
+            print(f"date fin         :{list_rounds[i]['date_end_time']}")
+            print("resultats         :")
             for key in list_rounds[i]['results'].keys():
-                print(f"{key}:{list_rounds[i]['results'][key]}")
+                print(f"{key:9} {list_rounds[i]['results'][key]['name']:10} "
+                      f"{list_rounds[i]['results'][key]['first_name']:10}"
+                      f"avec score de '{list_rounds[i]['results'][key]['total_points']:10}'")
 
     def sow_tournament(self, table):
         """displays the list of tournaments"""
