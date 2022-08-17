@@ -1,6 +1,5 @@
 """Define the main controller."""
 
-from operator import attrgetter
 from tinydb import TinyDB, Query
 from datetime import datetime
 from models.player import Player
@@ -214,7 +213,9 @@ class Controllers:
                 for key in self.tournament.results.keys():
                     name = self.tournament.results[key]['name']
                     first_name = self.tournament.results[key]['first_name']
-                    date_of_birth = self.tournament.results[key]['date_of_birth']
+                    date_of_birth = self.tournament.results[key][
+                        'date_of_birth'
+                    ]
                     sex = self.tournament.results[key]['sex']
                     ranking = self.tournament.results[key]['ranking']
                     total_points = self.tournament.results[key]['total_points']
@@ -266,31 +267,6 @@ class Controllers:
         tournament_table = tournament_data_base.table('tournaments')
         return tournament_table
 
-    def search_player(self):
-        """search for player to update them '11' """
-        players_data_base = TinyDB('data_base_tournaments.json')
-        table = players_data_base.table('players')
-        query = Query()
-        name = self.view.tournament_data(
-            "veuillez entrer le nom du joueur :"
-        )
-        value = int(self.view.tournament_data(
-            "veuillez entrer le nouveau valeur :"
-        ))
-        table.update({'ranking': value}, query.name == name)
-
-    def List_tournament_matches(self):
-        """List of all tournament matches '10' """
-        table = self.table_all_tournaments()
-        query = Query()
-        name = self.view.tournament_data(
-            "veuillez entrer le nom de tournois"
-        )
-        tournament = table.search(
-            query.tournament_name == name
-        )
-        self.view.show_match(tournament)
-
     def begin_tournament(self):
         """ start tournament '1' """
         sub_menu = self.view.show_menu()
@@ -301,61 +277,6 @@ class Controllers:
             self.get_players()
         if self.tournament.tournament_name == '':
             self.get_tournament()
-
-    def List_tournament_players(self):
-        """List of all tournament players '6' """
-        choice = self.view.tournament_data(
-            " 1 : par ordre alphabétique \n 2 : par classement) "
-        )
-        if choice in ['1', '2']:
-            if choice == '1':
-                sort_players = sorted(
-                    self.players, key=attrgetter('name'), reverse=False
-                )
-                self.view.show_player(sort_players)
-            else:
-                sort_players = sorted(
-                    self.players, key=attrgetter('ranking'),
-                    reverse=False
-                )
-                self.view.show_player(sort_players)
-
-    def List_players_db(self):
-        """ List of all players in the database '7' """
-        players_table = self.import_player()
-        choice = self.view.tournament_data(
-            " 1 : par ordre alphabétique \n 2 : par classement) "
-        )
-        if choice in ['1', '2']:
-            if choice == '1':
-                sort_players = sorted(
-                    players_table, key=lambda value: value['name'],
-                    reverse=False
-                )
-                self.view.show_player(sort_players)
-            else:
-                sort_players = sorted(
-                    players_table, key=lambda value: value['ranking'],
-                    reverse=False
-                )
-                self.view.show_player(sort_players)
-
-    def List_all_tournaments(self):
-        """List of all tournaments '8' """
-        tournament_table = self.table_all_tournaments()
-        self.view.sow_tournament(tournament_table)
-
-    def List_tournament_rounds(self):
-        """List of all tournament rounds '9' """
-        table = self.table_all_tournaments()
-        query = Query()
-        name = self.view.tournament_data(
-            "veuillez entrer le nom de tournois"
-        )
-        tournament = table.search(
-            query.tournament_name == name
-        )
-        self.view.show_rounds(tournament)
 
     def run(self):
         """run the chess """
@@ -372,7 +293,7 @@ class Controllers:
                 self.view.show_results(self.tournament.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
                 if self.tournament.rounds_number in [4, 3, 2, 1]:
-                    self.menu.data_logging(self.tournament)  # self.data_logging(self.tournament)
+                    self.menu.data_logging(self.tournament)
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 self.menu.List_tournament_players(self.players)
             elif menu == '7':  # Liste de tous les joueurs dans la db
