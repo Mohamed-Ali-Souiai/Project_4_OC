@@ -238,7 +238,7 @@ class Controllers:
 
     def start_rounds(self):
         """start the rounds"""
-        if self.tournament.rounds_number > 1:
+        if self.tournament.rounds_number > 0:
             self.generate_player_pairs()
             """affiches paire"""
             self.view.show_system_message('*************** MATCH ***************')
@@ -255,12 +255,7 @@ class Controllers:
                     "veuillez entrer la remarque  du directeur: "
                 )
             )
-            if self.rounds.rounds_name == 'rounds2':
-                self.tournament.rounds_number = 3
-            elif self.rounds.rounds_name == 'rounds3':
-                self.tournament.rounds_number = 2
-            elif self.rounds.rounds_name == 'rounds4':
-                self.tournament.rounds_number = 1
+            self.rounds.rounds_name -= 1
 
     def begin_tournament(self):
         """ start tournament '1' """
