@@ -301,9 +301,7 @@ class Controllers:
             self.deserialized(players_table)
         elif sub_menu == '2':  # "Entrer des joueurs"
             self.get_players()
-        else:  # "modifier les classements"
-            pass
-        if not self.tournament.tournament_name == '':
+        if self.tournament.tournament_name == '':
             self.get_tournament()
 
     def List_tournament_players(self):
