@@ -12,11 +12,12 @@ NUMBER_ROUNDS = 4
 class Controllers:
     """Main controller."""
 
-    def __init__(self, tournament, rounds, view):
+    def __init__(self, tournament, rounds, view, menu):
         self.players = []
         self.rounds = rounds
         self.view = view
         self.tournament = tournament
+        self.menu = menu
 
     def control_date(self, date):
         """retourne une date valide"""
@@ -226,7 +227,7 @@ class Controllers:
                 self.players.append(player)
 
     def data_logging(self):
-        """data storage"""
+        """save tournament data '5' """
         tournament_data_base = TinyDB('data_base_tournaments.json')
         tournament_table = tournament_data_base.table('tournaments')
         tournament_table.update(self.tournament.tournament_table())
@@ -276,7 +277,7 @@ class Controllers:
         table.update({'ranking': value}, query.name == name)
 
     def List_tournament_matches(self):
-        """List of all tournament matches"""
+        """List of all tournament matches '10' """
         table = self.table_all_tournaments()
         query = Query()
         name = self.view.tournament_data(
@@ -288,7 +289,7 @@ class Controllers:
         self.view.show_match(tournament)
 
     def begin_tournament(self):
-        """ start tournament """
+        """ start tournament '1' """
         sub_menu = self.view.show_menu()
         if sub_menu == '1':  # "Importer des joueurs"
             players_table = self.import_player()
@@ -337,6 +338,23 @@ class Controllers:
                 )
                 self.view.show_player(sort_players)
 
+    def List_all_tournaments(self):
+        """List of all tournaments '8' """
+        tournament_table = self.table_all_tournaments()
+        self.view.sow_tournament(tournament_table)
+
+    def List_tournament_rounds(self):
+        """List of all tournament rounds '9' """
+        table = self.table_all_tournaments()
+        query = Query()
+        name = self.view.tournament_data(
+            "veuillez entrer le nom de tournois"
+        )
+        tournament = table.search(
+            query.tournament_name == name
+        )
+        self.view.show_rounds(tournament)
+
     def run(self):
         """run the chess"""
         while True:
@@ -352,24 +370,16 @@ class Controllers:
                 self.view.show_results(self.tournament.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
                 if self.tournament.rounds_number in [4, 3, 2, 1]:
-                    self.data_logging()
+                    self.data_logging()  # self.data_logging(self.tournament)
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 self.List_tournament_players()
+                # self.List_tournament_players(self.players)
             elif menu == '7':  # Liste de tous les joueurs dans la db
                 self.List_players_db()
             elif menu == '8':  # "Liste de tous les tournois"
-                tournament_table = self.table_all_tournaments()
-                self.view.sow_tournament(tournament_table)
+                self.List_all_tournaments()
             elif menu == '9':  # "Liste de tous les tours du tournoi"
-                table = self.table_all_tournaments()
-                query = Query()
-                name = self.view.tournament_data(
-                    "veuillez entrer le nom de tournois"
-                )
-                tournament = table.search(
-                    query.tournament_name == name
-                )
-                self.view.show_rounds(tournament)
+                self.List_tournament_rounds()
             elif menu == '10':  # "Liste de tous les matchs du tournoi"
                 self.List_tournament_matches()
             elif menu == '11':  # "modifier les classements"
