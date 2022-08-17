@@ -53,7 +53,10 @@ class Views:
     def show_match(self, tournament):
         for i in range(ROUNDS_NUMBER):
             list_rounds = tournament[0]['list_rounds_tournament']
-            print(f"{list_rounds[i]['list_match']}")
+            print(f"************************* rounds{i+1} *************************")
+            for match in list_rounds[i]['list_match']:
+                print(f"{match[0][0]['name']:10} {match[0][0]['first_name']:10} : {match[0][1]}   VS   "
+                      f"{match[1][0]['name']:10} {match[1][0]['first_name']:10} : {match[1][1]}")
 
     def show_rounds(self, tournament):
         for i in range(ROUNDS_NUMBER):
