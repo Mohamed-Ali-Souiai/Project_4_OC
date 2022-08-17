@@ -4,7 +4,6 @@ from operator import attrgetter
 from tinydb import TinyDB, Query
 from datetime import datetime
 from models.player import Player
-from pprint import pprint
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
@@ -229,7 +228,6 @@ class Controllers:
                     self.players.append(player)
             else:
                 self.begin_tournament()
-        pprint(self.players)
 
     def data_logging(self):
         """save tournament data '5' """
@@ -377,7 +375,6 @@ class Controllers:
                     self.menu.data_logging(self.tournament)  # self.data_logging(self.tournament)
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 self.menu.List_tournament_players(self.players)
-                # self.List_tournament_players(self.players)
             elif menu == '7':  # Liste de tous les joueurs dans la db
                 self.menu.List_players_db()
             elif menu == '8':  # "Liste de tous les tournois"
