@@ -261,12 +261,6 @@ class Controllers:
         elif self.rounds.rounds_name == 'rounds4':
             self.tournament.rounds_number = 1
 
-    def table_all_tournaments(self):
-        """returns the tournament table"""
-        tournament_data_base = TinyDB('data_base_tournaments.json')
-        tournament_table = tournament_data_base.table('tournaments')
-        return tournament_table
-
     def begin_tournament(self):
         """ start tournament '1' """
         sub_menu = self.view.show_menu()
