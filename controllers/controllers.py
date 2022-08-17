@@ -238,28 +238,29 @@ class Controllers:
 
     def start_rounds(self):
         """start the rounds"""
-        self.generate_player_pairs()
-        """affiches paire"""
-        self.view.show_system_message('*************** MATCH ***************')
-        list_pair = self.rounds.list_pair(self.players)
-        color = self.rounds.draw()
-        self.view.show_meetings(list_pair, color)
-        self.end_rounds_results()
-        self.results()
-        self.tournament.list_rounds_tournament.append(
-            self.rounds.rounds_table()
-        )
-        self.tournament.remarks_director.append(
-            self.view.tournament_data(
-                "veuillez entrer la remarque  du directeur: "
+        if self.tournament.rounds_number > 1:
+            self.generate_player_pairs()
+            """affiches paire"""
+            self.view.show_system_message('*************** MATCH ***************')
+            list_pair = self.rounds.list_pair(self.players)
+            color = self.rounds.draw()
+            self.view.show_meetings(list_pair, color)
+            self.end_rounds_results()
+            self.results()
+            self.tournament.list_rounds_tournament.append(
+                self.rounds.rounds_table()
             )
-        )
-        if self.rounds.rounds_name == 'rounds2':
-            self.tournament.rounds_number = 3
-        elif self.rounds.rounds_name == 'rounds3':
-            self.tournament.rounds_number = 2
-        elif self.rounds.rounds_name == 'rounds4':
-            self.tournament.rounds_number = 1
+            self.tournament.remarks_director.append(
+                self.view.tournament_data(
+                    "veuillez entrer la remarque  du directeur: "
+                )
+            )
+            if self.rounds.rounds_name == 'rounds2':
+                self.tournament.rounds_number = 3
+            elif self.rounds.rounds_name == 'rounds3':
+                self.tournament.rounds_number = 2
+            elif self.rounds.rounds_name == 'rounds4':
+                self.tournament.rounds_number = 1
 
     def begin_tournament(self):
         """ start tournament '1' """
