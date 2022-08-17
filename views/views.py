@@ -83,8 +83,6 @@ class Views:
                 for remark in tournament['remarks_director']:
                     print(f"    - {remark}")
                 print('-*-resultats:')
-                """for key in tournament['results'].keys():
-                    print(f"    *_* {key}:{tournament['results'][key]}")"""
                 for key in tournament['results'].keys():
                     print(f"{key:9} {tournament['results'][key]['name']:10} "
                           f"{tournament['results'][key]['first_name']:10}"
