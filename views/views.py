@@ -1,7 +1,7 @@
 #!C:\Users\mohamed ali\Desktop\git\Project_4_OC\env python
 # -*- coding: utf-8 -*-
 
-"""Base view."""
+"""Define the main view. """
 
 NUMBER_PLAYERS = 8
 ROUNDS_NUMBER = 4

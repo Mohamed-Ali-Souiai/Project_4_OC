@@ -1,4 +1,4 @@
-"""Player ."""
+"""Define Player ."""
 
 
 class Player:

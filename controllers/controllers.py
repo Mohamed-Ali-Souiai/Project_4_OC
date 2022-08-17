@@ -356,7 +356,7 @@ class Controllers:
         self.view.show_rounds(tournament)
 
     def run(self):
-        """run the chess"""
+        """run the chess """
         while True:
             menu = self.view.show_menu('principal')
             if menu == '1':  # "Commencer un tournoi"

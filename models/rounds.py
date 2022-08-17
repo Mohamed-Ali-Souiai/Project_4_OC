@@ -1,3 +1,4 @@
+"""Define rounds"""
 from models.match import Match
 from random import choice
 

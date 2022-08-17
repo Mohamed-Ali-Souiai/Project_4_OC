@@ -19,7 +19,7 @@ class Menu:
         return players_table
 
     def table_all_tournaments(self):
-        """returns the tournament table"""
+        """returns the tournament table """
         tournament_data_base = TinyDB('data_base_tournaments.json')
         tournament_table = tournament_data_base.table('tournaments')
         return tournament_table
