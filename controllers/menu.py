@@ -105,7 +105,7 @@ class Menu:
         name = self.view.tournament_data(
             "veuillez entrer le nom du joueur :"
         )
-        value = self.view.tournament_data(
+        value = int(self.view.tournament_data(
             "veuillez entrer le nouveau valeur :"
-        )
+        ))
         table.update({'ranking': value}, query.name == name)

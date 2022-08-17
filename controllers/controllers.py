@@ -4,6 +4,7 @@ from operator import attrgetter
 from tinydb import TinyDB, Query
 from datetime import datetime
 from models.player import Player
+from pprint import pprint
 
 NUMBER_PLAYERS = 8
 NUMBER_ROUNDS = 4
@@ -210,21 +211,25 @@ class Controllers:
         ]
         self.tournament.results = data[0]['results']
         if len(self.players) == 0:
-            for key in self.tournament.results.keys():
-                name = self.tournament.results[key]['name']
-                first_name = self.tournament.results[key]['first_name']
-                date_of_birth = self.tournament.results[key]['date_of_birth']
-                sex = self.tournament.results[key]['sex']
-                ranking = self.tournament.results[key]['ranking']
-                total_points = self.tournament.results[key]['total_points']
-                opponent = self.tournament.results[key]['opponent']
-                player = Player(
-                    name, first_name,
-                    date_of_birth, sex,
-                    ranking, total_points,
-                    opponent
-                )
-                self.players.append(player)
+            if self.tournament.results:
+                for key in self.tournament.results.keys():
+                    name = self.tournament.results[key]['name']
+                    first_name = self.tournament.results[key]['first_name']
+                    date_of_birth = self.tournament.results[key]['date_of_birth']
+                    sex = self.tournament.results[key]['sex']
+                    ranking = self.tournament.results[key]['ranking']
+                    total_points = self.tournament.results[key]['total_points']
+                    opponent = self.tournament.results[key]['opponent']
+                    player = Player(
+                        name, first_name,
+                        date_of_birth, sex,
+                        ranking, total_points,
+                        opponent
+                    )
+                    self.players.append(player)
+            else:
+                self.begin_tournament()
+        pprint(self.players)
 
     def data_logging(self):
         """save tournament data '5' """
@@ -271,9 +276,9 @@ class Controllers:
         name = self.view.tournament_data(
             "veuillez entrer le nom du joueur :"
         )
-        value = self.view.tournament_data(
+        value = int(self.view.tournament_data(
             "veuillez entrer le nouveau valeur :"
-        )
+        ))
         table.update({'ranking': value}, query.name == name)
 
     def List_tournament_matches(self):
@@ -298,7 +303,8 @@ class Controllers:
             self.get_players()
         else:  # "modifier les classements"
             pass
-        self.get_tournament()
+        if not self.tournament.tournament_name == '':
+            self.get_tournament()
 
     def List_tournament_players(self):
         """List of all tournament players '6' """
@@ -370,19 +376,19 @@ class Controllers:
                 self.view.show_results(self.tournament.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
                 if self.tournament.rounds_number in [4, 3, 2, 1]:
-                    self.data_logging()  # self.data_logging(self.tournament)
+                    self.menu.data_logging(self.tournament)  # self.data_logging(self.tournament)
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
-                self.List_tournament_players()
+                self.menu.List_tournament_players(self.players)
                 # self.List_tournament_players(self.players)
             elif menu == '7':  # Liste de tous les joueurs dans la db
-                self.List_players_db()
+                self.menu.List_players_db()
             elif menu == '8':  # "Liste de tous les tournois"
-                self.List_all_tournaments()
+                self.menu.List_all_tournaments()
             elif menu == '9':  # "Liste de tous les tours du tournoi"
-                self.List_tournament_rounds()
+                self.menu.List_tournament_rounds()
             elif menu == '10':  # "Liste de tous les matchs du tournoi"
-                self.List_tournament_matches()
+                self.menu.List_tournament_matches()
             elif menu == '11':  # "modifier les classements"
-                self.search_player()
+                self.menu.search_player()
             else:
                 break
