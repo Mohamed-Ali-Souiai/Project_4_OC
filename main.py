@@ -1,4 +1,4 @@
-"""Entry point. """
+"""Entry point . """
 
 from views.views import Views
 from controllers.controllers import Controllers
