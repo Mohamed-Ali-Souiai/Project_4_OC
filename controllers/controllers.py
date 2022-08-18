@@ -254,6 +254,17 @@ class Controllers:
         else:
             self.view.show_system_message("les 4 rounds sont deja ete discute")
 
+    def data_logging(self):
+        """save tournament data '5' """
+        tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournament_table = tournament_data_base.table('tournaments')
+        target = Query()
+        tournament_table.update(
+            self.tournament.tournament_table(), target.self.tournament.tournament_name == self.tournament[
+                'tournament_name'
+            ]
+        )
+
     def begin_tournament(self):
         """ start tournament '1' """
         sub_menu = self.view.show_menu()
@@ -279,8 +290,9 @@ class Controllers:
             elif menu == '4':  # "afficher les résultats"
                 self.view.show_results(self.tournament.results)
             elif menu == '5':  # "sauvegader les donnes du tournoi"
-                if self.tournament.rounds_number in [4, 3, 2, 1]:
-                    self.menu.data_logging(self.tournament)
+                if self.tournament.rounds_number in [3, 2, 1, 0]:
+                    # self.menu.data_logging(self.tournament, self.tournament.tournament_name)
+                    self.data_logging()
             elif menu == '6':  # "Liste de tous les joueurs du tournoi "
                 self.menu.List_tournament_players(self.players)
             elif menu == '7':  # Liste de tous les joueurs dans la db
