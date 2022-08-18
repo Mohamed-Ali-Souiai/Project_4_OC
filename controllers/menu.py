@@ -24,12 +24,12 @@ class Menu:
         tournament_table = tournament_data_base.table('tournaments')
         return tournament_table
 
-    def data_logging(self, tournament, name):
+    def data_logging(self, tournament):
         """save tournament data '5' """
         tournament_data_base = TinyDB('data_base_tournaments.json')
         tournament_table = tournament_data_base.table('tournaments')
-        target = Query()
-        tournament_table.update(tournament.tournament_table(), target.tournament_name == name)
+        # target = Query()
+        tournament_table.insert(tournament.tournament_table())
 
     def List_tournament_players(self, players):
         """List of all tournament players '6' """

@@ -23,6 +23,7 @@ class Player:
             f"Date de naissance: {self.date_of_birth}\n"
             f"Sexe: {self.sex}\n"
             f"Classement: {self.ranking}\n"
+            f"opponent : {self.opponent}"
         )
 
     def __repr__(self):
