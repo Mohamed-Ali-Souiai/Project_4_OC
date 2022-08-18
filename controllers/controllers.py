@@ -230,12 +230,6 @@ class Controllers:
             else:
                 self.begin_tournament()
 
-    def data_logging(self):
-        """save tournament data '5' """
-        tournament_data_base = TinyDB('data_base_tournaments.json')
-        tournament_table = tournament_data_base.table('tournaments')
-        tournament_table.update(self.tournament.tournament_table())
-
     def start_rounds(self):
         """start the rounds"""
         if self.tournament.rounds_number > 0:
