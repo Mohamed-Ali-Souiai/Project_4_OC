@@ -255,7 +255,7 @@ class Controllers:
                     "veuillez entrer la remarque  du directeur: "
                 )
             )
-            self.rounds.rounds_name -= 1
+            self.tournament.rounds_number -= 1
         else:
             self.view.show_system_message("les 4 rounds sont deja ete discute")
 

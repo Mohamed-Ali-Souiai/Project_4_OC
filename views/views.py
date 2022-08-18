@@ -22,8 +22,12 @@ class Views:
     def show_results(self, tournament_results):
         """display list the result"""
         print("classement des joueurs dans le tournoi")
+        """for key in tournament_results.keys():
+            print(f'{key}:{tournament_results[key]}')"""
         for key in tournament_results.keys():
-            print(f'{key}:{tournament_results[key]}')
+            print(f"{key:9} {tournament_results[key]['name']:10} "
+                  f"{tournament_results[key]['first_name']:10}"
+                  f"avec score de '{tournament_results[key]['total_points']:10}'")
 
     def show_player(self, players):
         """player list poster"""
