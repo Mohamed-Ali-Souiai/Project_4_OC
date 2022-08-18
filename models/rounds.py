@@ -104,7 +104,6 @@ class Rounds:
         return self.list_match
 
     def next_rounds(self, list_players):
-        # a refaire
         """returns list of round matches '2 3 4'. """
         self.list_match = []
         for i in range(len(list_players)-1):
