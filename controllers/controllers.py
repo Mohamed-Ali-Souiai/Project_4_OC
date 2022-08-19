@@ -243,7 +243,7 @@ class Controllers:
         ]
         self.tournament.results = data[0]['results']
         if len(self.players) == 0:
-            if self.tournament.results:
+            if not self.tournament.results:
                 for key in self.tournament.results.keys():
                     name = self.tournament.results[key]['name']
                     first_name = self.tournament.results[key]['first_name']
