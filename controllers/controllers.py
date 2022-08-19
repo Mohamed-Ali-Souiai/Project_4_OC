@@ -304,7 +304,7 @@ class Controllers:
                 )
                 if choice == 'y':
                     self.continue_tournament()
-            elif menu == '3':  # "jouer une round"
+            elif menu == '3':  # "jouer une round (rounds1, rounds2, rounds3, rounds4)"
                 self.start_rounds()
                 # self.results()
             elif menu == '4':  # "afficher les résultats"
