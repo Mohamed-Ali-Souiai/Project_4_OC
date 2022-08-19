@@ -243,7 +243,7 @@ class Controllers:
         ]
         self.tournament.results = data[0]['results']
         if len(self.players) == 0:
-            if not self.tournament.results:
+            if self.tournament.results:
                 for key in self.tournament.results.keys():
                     name = self.tournament.results[key]['name']
                     first_name = self.tournament.results[key]['first_name']
@@ -254,6 +254,24 @@ class Controllers:
                     ranking = self.tournament.results[key]['ranking']
                     total_points = self.tournament.results[key]['total_points']
                     opponent = self.tournament.results[key]['opponent']
+                    player = Player(
+                        name, first_name,
+                        date_of_birth, sex,
+                        ranking, total_points,
+                        opponent
+                    )
+                    self.players.append(player)
+            elif self.tournament.list_players:
+                for i in range(len(self.tournament.list_players)):
+                    name = self.tournament.list_players[i]['name']
+                    first_name = self.tournament.list_players[i]['first_name']
+                    date_of_birth = self.tournament.list_players[i][
+                        'date_of_birth'
+                    ]
+                    sex = self.tournament.list_players[i]['sex']
+                    ranking = self.tournament.list_players[i]['ranking']
+                    total_points = self.tournament.list_players[i]['total_points']
+                    opponent = self.tournament.list_players[i]['opponent']
                     player = Player(
                         name, first_name,
                         date_of_birth, sex,
