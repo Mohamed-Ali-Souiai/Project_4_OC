@@ -24,6 +24,13 @@ class Menu:
         tournament_table = tournament_data_base.table('tournaments')
         return tournament_table
 
+    def import_tournament_names(self):
+        list_names = []
+        tournaments = self.table_all_tournaments()
+        for tournament in tournaments:
+            list_names.append(tournament['tournament_name'])
+        return list_names
+
     def data_logging(self, tournament, name):
         """save tournament data '5' """
         tournament_data_base = TinyDB('data_base_tournaments.json')

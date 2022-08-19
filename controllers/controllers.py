@@ -53,6 +53,18 @@ class Controllers:
                 print('valeur non valide')
         return value
 
+    def tournament_name_control(self, list_tournament_names):
+        """retourne valeur valide"""
+        while True:
+            value = self.view.tournament_data(
+                "veuillez entrer le nom du tournoi à continuer: "
+            )
+            if value in list_tournament_names:
+                break
+            else:
+                print('valeur non valide')
+        return value
+
     def control_score(self, index):
         """returns a valid value"""
         while True:
@@ -85,9 +97,9 @@ class Controllers:
                 "veuillez entrer la remarque  du directeur: "
             )
         )
-        """tournament_data_base = TinyDB('data_base_tournaments.json')
+        tournament_data_base = TinyDB('data_base_tournaments.json')
         tournament_table = tournament_data_base.table('tournaments')
-        tournament_table.insert(self.tournament.tournament_table())"""
+        tournament_table.insert(self.tournament.tournament_table())
 
     def get_players(self):
         """returns the list of players"""
@@ -121,9 +133,9 @@ class Controllers:
             )
             self.players.append(player)
             self.tournament.list_players.append(player.player_table())
-            """players_data_base = TinyDB('data_base_tournaments.json')
+            players_data_base = TinyDB('data_base_tournaments.json')
             players_table = players_data_base.table('players')
-            players_table.insert(player.player_table())"""
+            players_table.insert(player.player_table())
 
     def import_player(self):
         """returns the player table"""
@@ -204,10 +216,12 @@ class Controllers:
 
     def continue_tournament(self):
         """data recovery from database"""
+        list_tournament_name = self.menu.import_tournament_names()
+        self.view.show_system_message('liste des tournois enregistrés : ')
+        for name in list_tournament_name:
+            self.view.show_system_message(name)
         tournament_data_base = TinyDB('data_base_tournaments.json')
-        tournament = self.view.tournament_data(
-            "veuillez entrer le nom du tournoi à continuer: "
-        )
+        tournament = self.tournament_name_control(list_tournament_name)
         tournament_table = tournament_data_base.table('tournaments')
         request = Query()
         recovery = tournament_table.search(
