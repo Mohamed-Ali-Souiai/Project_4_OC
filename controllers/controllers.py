@@ -299,7 +299,9 @@ class Controllers:
                 if choice == 'y':
                     self.begin_tournament()
             elif menu == '2':  # "continuer un tournoi deja existante"
-                choice = self.view.tournament_data('Vous etes sûr de vouloir continuer un tournoi deja existante (y/n)')
+                choice = self.view.tournament_data(
+                    'Vous etes sûrde vouloir continuer un tournoi deja existante (y/n)'
+                )
                 if choice == 'y':
                     self.continue_tournament()
             elif menu == '3':  # "jouer une round"
