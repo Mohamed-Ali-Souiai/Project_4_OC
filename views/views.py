@@ -99,8 +99,8 @@ class Views:
         if show == 'principal':
             menu = {
                 '1': "Commencer un tournoi",
-                '2': "continuer un trournoi",
-                '3': "jouer une round",
+                '2': "continuer un tournoi deja existante",
+                '3': "jouer une round (rounds1, rounds2, rounds3, rounds4)",
                 '4': "afficher les résultats",
                 '5': "sauvegader les donnes du tournoi",
                 '6': "Liste de tous les joueurs du tournoi ",

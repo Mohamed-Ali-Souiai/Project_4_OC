@@ -27,6 +27,32 @@ class Controllers:
             return None
         return date
 
+    def time_control(self):
+        """retourne valeur valide"""
+        while True:
+            value = self.view.tournament_data(
+                "veuillez choisir  le Controle du temps ('blitz','bullet','coup rapide'): "
+            )
+            if value in ['blitz', 'bullet', 'coup rapide']:
+                break
+            else:
+                print('valeur non valide')
+        return value
+
+    def ranking_control(self):
+        """retourne valeur valide"""
+        while True:
+            try:
+                value = int(
+                    self.view.tournament_data(
+                        "veuillez entrer le classement du joueur: "
+                    )
+                )
+                break
+            except ValueError:
+                print('valeur non valide')
+        return value
+
     def control_score(self, index):
         """returns a valid value"""
         while True:
@@ -53,17 +79,15 @@ class Controllers:
         self.tournament.tournament_date.append(
             datetime.today().strftime('%d-%m-%Y')
         )
-        self.tournament.time_control = self.view.tournament_data(
-            "veuillez entrer le Controle du temps: "
-        )
+        self.tournament.time_control = self.time_control()
         self.tournament.remarks_director.append(
             self.view.tournament_data(
                 "veuillez entrer la remarque  du directeur: "
             )
         )
-        tournament_data_base = TinyDB('data_base_tournaments.json')
+        """tournament_data_base = TinyDB('data_base_tournaments.json')
         tournament_table = tournament_data_base.table('tournaments')
-        tournament_table.insert(self.tournament.tournament_table())
+        tournament_table.insert(self.tournament.tournament_table())"""
 
     def get_players(self):
         """returns the list of players"""
@@ -78,22 +102,18 @@ class Controllers:
             )
             while condition:
                 player_date_of_birth = self.view.tournament_data(
-                    "veuillez entrer la date de naissance du joueur : "
+                    "veuillez entrer la date de naissance du joueur (jj-mm-aaaa): "
                 )
                 if self.control_date(player_date_of_birth):
                     break
 
             while condition:
                 player_sex = self.view.tournament_data(
-                    "veuillez entrer le sexe du joueur : "
+                    "veuillez entrer le sexe du joueur ('h','f'): "
                 )
                 if player_sex in ['h', 'f']:
                     break
-            player_ranking = int(
-                self.view.tournament_data(
-                    "veuillez entrer le classement du joueur: "
-                )
-            )
+            player_ranking = self.ranking_control()
             player = Player(
                 player_name, player_first_name,
                 player_date_of_birth, player_sex,
@@ -101,9 +121,9 @@ class Controllers:
             )
             self.players.append(player)
             self.tournament.list_players.append(player.player_table())
-            players_data_base = TinyDB('data_base_tournaments.json')
+            """players_data_base = TinyDB('data_base_tournaments.json')
             players_table = players_data_base.table('players')
-            players_table.insert(player.player_table())
+            players_table.insert(player.player_table())"""
 
     def import_player(self):
         """returns the player table"""
@@ -275,9 +295,13 @@ class Controllers:
         while True:
             menu = self.view.show_menu('principal')
             if menu == '1':  # "Commencer un tournoi"
-                self.begin_tournament()
-            elif menu == '2':  # "continuer un trournoi"
-                self.continue_tournament()
+                choice = self.view.tournament_data('Vous etes sûr de vouloir commencer un tournoi (y/n)')
+                if choice == 'y':
+                    self.begin_tournament()
+            elif menu == '2':  # "continuer un tournoi deja existante"
+                choice = self.view.tournament_data('Vous etes sûr de vouloir continuer un tournoi deja existante (y/n)')
+                if choice == 'y':
+                    self.continue_tournament()
             elif menu == '3':  # "jouer une round"
                 self.start_rounds()
                 # self.results()
